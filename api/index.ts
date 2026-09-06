@@ -1,7 +1,8 @@
 import { handle } from 'hono/vercel';
-import { createLapiApp } from '../src/lapi';
+import { createLapiApp, WSHub } from '../src/lapi';
 
-const app = createLapiApp();
+const wsHub = new WSHub();
+const app = createLapiApp(wsHub);
 
 export const GET = handle(app);
 export const POST = handle(app);

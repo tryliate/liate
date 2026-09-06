@@ -18,7 +18,7 @@ export { WSHub };
 /**
  * Creates the Sovereign LAPI/v1 Engine (Hono + Bun)
  */
-export function createLiateApp(wsHub: WSHub) {
+export function createLiateApp(wsHub: WSHub = new WSHub()) {
   const app = new Hono();
   const runHandler = createRunHandler(wsHub);
   const mcpHandler = createMcpStreamableHandler(wsHub);
