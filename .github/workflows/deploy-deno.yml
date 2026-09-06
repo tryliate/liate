@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      id-token: write # Uses GitHub Actions OIDC for authentication with Deno Deploy
+      id-token: write
       contents: read
 
     steps:
@@ -23,3 +23,5 @@ jobs:
         with:
           project: liate
           entrypoint: main.ts
+        env:
+          DENO_DEPLOY_TOKEN: ${{ secrets.DENO_DEPLOY_TOKEN }}
