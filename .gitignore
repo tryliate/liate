@@ -1,0 +1,61 @@
+# Dependencies & Backup
+node_modules/
+dist/
+_backup/
+backup/
+
+# Environment configs & secrets
+.env
+.env.local
+.env.*.local
+*.vault
+
+# Compiled binary & build artifacts
+liate.exe
+liate.bin
+liate
+liate-*
+*.exe
+*.bin
+*.bun-build
+.*.bun-build
+.18cf25b43effff74*
+out/
+build/
+
+# Liate runtime data & cache
+.liate/
+liate_logs.jsonl
+liate_sessions/
+liate_memory/
+test_crud_data/
+
+# Temporary test scaffolds & agents
+.tmp_*
+.tmp*
+agents/
+scratch/
+backup-li8/
+hello-omni-live/
+my-omni-test/
+test-omni-agent/
+*-test/
+*-agent/
+liate_skills.json
+liate_mcp.json
+skills/
+
+# IDE & Operating System
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.user
+
+# Test coverage & logs
+coverage/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

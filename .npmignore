@@ -1,0 +1,23 @@
+# Environment & Secrets
+.env
+.env.*
+*.local
+*.vault
+
+# Compiled standalone platform executables (keep tarball lightweight for npm consumers)
+dist/*.exe
+*.exe
+
+# Tests, Scratch, Examples
+tests/
+examples/
+scratch/
+catalog/
+scripts/
+
+# Runtime caches & logs
+.liate/
+*.log
+liate_logs.jsonl
+liate_sessions/
+liate_memory/

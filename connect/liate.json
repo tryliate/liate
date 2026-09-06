@@ -1,0 +1,17 @@
+{
+  "L": "sarvam/sarvam-105b",
+  "I": {
+    "memory": "sessions/connect"
+  },
+  "A": {
+    "name": "connect",
+    "version": "1.0.0",
+    "intent": "A sovereign AI agent that outputs the iconic greeting: Hello, AI Agent World!",
+    "skills": "./skills/procedures.md"
+  },
+  "T": {},
+  "E": {
+    "SARVAM_API_KEY": "$SARVAM_API_KEY",
+    "MAX_TURNS": "10"
+  }
+}

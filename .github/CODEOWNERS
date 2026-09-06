@@ -1,0 +1,18 @@
+# Liate Governance & Code Ownership
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default maintainers for everything
+* @tryliate/maintainers
+
+# Core ReAct engine & OM optimizer
+/src/li8/ @tryliate/core-team
+/src/om/  @tryliate/core-team
+
+# Security, DPDP Guard & HMAC Auth
+/src/oop/Liate_Security/ @tryliate/security-team
+
+# LAPI REST & WebSocket Server
+/src/lapi/ @tryliate/api-team
+
+# Multi-Language ADK
+/adk/ @tryliate/adk-team

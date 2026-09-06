@@ -1,0 +1,25 @@
+{
+  "name": "indic-voice-copilot",
+  "version": "1.0.0",
+  "description": "Multilingual voice copilot supporting 10+ Indic languages using Sarvam Saaras & Bulbul voice engines.",
+  "author": "Tryliate Team <contributors@tryliate.com>",
+  "tags": ["voice", "indic", "tts", "stt", "sarvam-ai"],
+  "spec": {
+    "L": "sarvam/sarvam-105b",
+    "I": {
+      "memory": "session_indic_voice"
+    },
+    "A": {
+      "name": "indic-voice-agent",
+      "intent": "You are a multilingual sovereign voice copilot fluent in Hindi, Tamil, Telugu, Kannada, Marathi, Bengali, and Indian English."
+    },
+    "T": {
+      "tools": ["indic_stt", "indic_tts", "translation"]
+    },
+    "E": {
+      "budget_inr": 50.0,
+      "max_turns": 8,
+      "voice_enabled": true
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "agents": [
+    {
+      "name": "time-agent-11",
+      "version": "1.0.0",
+      "intent": "You are a time analyst. When asked about time in India or IST, you MUST pass timezone='Asia/Kolkata' to get_current_time.",
+      "repository": "https://github.com/VinodHatti-AI-Developer/test-agents",
+      "author": "VinodHatti-AI-Developer",
+      "model": "sarvam/sarvam-105b",
+      "submitted_at": "2026-08-31T10:16:09.118Z"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>Liate.ADK</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Tryliate Team</Authors>
+    <Description>Sovereign AI Agent Development Kit (ADK) for C# and .NET</Description>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "liate"
+version = "0.0.1"
+description = "Liate — Sovereign AI Agent Runtime ADK for Python. Lightweight client for the Liate LAPI/v1 engine."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [
+    { name = "Tryliate Team", email = "contributors@tryliate.com" }
+]
+keywords = [
+    "liate",
+    "agentantra",
+    "sovereign-ai",
+    "ai-agents",
+    "sarvam-ai",
+    "mcp",
+    "adk"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://tryliate.com"
+Documentation = "https://docs.tryliate.com"
+Repository = "https://github.com/tryliate/liate"
+Issues = "https://github.com/tryliate/liate/issues"

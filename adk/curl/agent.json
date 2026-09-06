@@ -1,0 +1,20 @@
+{
+  "L": "sarvam/sarvam-105b",
+  "I": {
+    "memory": "session_curl_live"
+  },
+  "A": {
+    "name": "Time Agent",
+    "intent": "Fetch live real-time clock for any timezone"
+  },
+  "T": {
+    "time": {
+      "command": "uvx",
+      "args": ["mcp-server-time"]
+    }
+  },
+  "E": {
+    "SARVAM_API_KEY": "$SARVAM_API_KEY"
+  }
+}
+

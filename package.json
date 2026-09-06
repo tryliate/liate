@@ -1,0 +1,81 @@
+{
+  "name": "liate",
+  "version": "1.0.0",
+  "description": "Liate — India's Sovereign AI Agents Platform. Write OOP classes in any language, run agents free forever locally. Agentantra Mission.",
+  "main": "dist/index.js",
+  "module": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "bun": ">=1.3.14",
+    "deno": ">=2.9.6",
+    "node": ">=22.0.0"
+  },
+  "bin": {
+    "liate": "dist/cli.js"
+  },
+  "scripts": {
+    "dev": "bun run src/cli/index.ts serve",
+    "start": "bun run src/cli/index.ts serve",
+    "dev:deno": "deno task dev",
+    "start:deno": "deno task start",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "build": "bun build ./src/index.ts --outdir ./dist --target node && bun build ./src/cli/index.ts --outfile ./dist/cli.js --target node",
+    "compile": "bun build ./src/cli/index.ts --compile --outfile dist/liate",
+    "typecheck": "bunx tsc --noEmit"
+  },
+  "dependencies": {
+    "@clack/core": "^1.4.3",
+    "@clack/prompts": "^1.7.0",
+    "@hugeicons/mcp-server": "^0.2.2",
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@types/adm-zip": "^0.5.8",
+    "@types/cross-spawn": "^6.0.6",
+    "adm-zip": "^0.5.18",
+    "cross-spawn": "^7.0.6",
+    "fast-string-width": "^3.0.2",
+    "fast-wrap-ansi": "^0.2.2",
+    "hono": "^4.13.4",
+    "is-unicode-supported": "^2.1.0",
+    "picocolors": "^1.1.1",
+    "sisteransi": "^2.0.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@testsprite/testsprite-cli": "^0.7.0",
+    "@types/bun": "latest",
+    "typescript": "^5.9.3"
+  },
+  "files": [
+    "dist/index.js",
+    "dist/index.d.ts",
+    "dist/cli.js",
+    "src",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tryliate/liate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tryliate/liate/issues"
+  },
+  "homepage": "https://tryliate.com",
+  "keywords": [
+    "liate",
+    "agentantra",
+    "sovereign-ai-agents",
+    "india-ai",
+    "sovereign-ai",
+    "sarvam-ai",
+    "multi-language-adk",
+    "ai-agents",
+    "mcp",
+    "hono",
+    "bun"
+  ],
+  "author": "Tryliate Team <contributors@tryliate.com>",
+  "license": "MIT"
+}

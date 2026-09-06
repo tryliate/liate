@@ -1,0 +1,22 @@
+{
+  "name": "tryliate/adk",
+  "description": "Sovereign AI Agent Development Kit (ADK) for PHP",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tryliate Team",
+      "email": "contributors@tryliate.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "ext-json": "*",
+    "ext-curl": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Liate\\ADK\\": "src/"
+    }
+  }
+}

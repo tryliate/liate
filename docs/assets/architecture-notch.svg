@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 440" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="pL" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="pI" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="pA" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B00" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="pT" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00F0FF" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="pE" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1100" height="440" rx="14" fill="url(#bgGrad3)" stroke="#334155" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="50" y="45" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="800">The 5-Pillar Spec Engine (L - I - A - T - E)</text>
+  <text x="50" y="72" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">Declarative, Universal Agent Standard Executable Across TypeScript, Python, Go &amp; MicroVMs</text>
+
+  <!-- 5 Columns for L, I, A, T, E -->
+  
+  <!-- L: Model -->
+  <g transform="translate(50, 95)">
+    <rect width="180" height="240" rx="12" fill="url(#pL)" stroke="#3b82f6" stroke-width="1.5"/>
+    <circle cx="90" cy="38" r="22" fill="#3b82f6" fill-opacity="0.2"/>
+    <text x="82" y="47" fill="#60a5fa" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="24" font-weight="900">L</text>
+    <text x="90" y="85" text-anchor="middle" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15" font-weight="700">Language Model</text>
+    <text x="90" y="105" text-anchor="middle" fill="#93c5fd" font-family="monospace" font-size="12">LiateModel</text>
+    <line x1="20" y1="120" x2="160" y2="120" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="145" fill="#CBD5E1" font-family="monospace" font-size="11">• Sarvam 105B</text>
+    <text x="20" y="165" fill="#CBD5E1" font-family="monospace" font-size="11">• Anthropic Claude</text>
+    <text x="20" y="185" fill="#CBD5E1" font-family="monospace" font-size="11">• Google Gemini</text>
+    <text x="20" y="205" fill="#CBD5E1" font-family="monospace" font-size="11">• Ollama / Local</text>
+    <text x="20" y="225" fill="#60a5fa" font-family="monospace" font-size="11">• OmniRoute (340+)</text>
+  </g>
+
+  <!-- I: Integration -->
+  <g transform="translate(250, 95)">
+    <rect width="180" height="240" rx="12" fill="url(#pI)" stroke="#8b5cf6" stroke-width="1.5"/>
+    <circle cx="90" cy="38" r="22" fill="#8b5cf6" fill-opacity="0.2"/>
+    <text x="85" y="47" fill="#a78bfa" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="24" font-weight="900">I</text>
+    <text x="90" y="85" text-anchor="middle" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15" font-weight="700">Integration &amp; State</text>
+    <text x="90" y="105" text-anchor="middle" fill="#c4b5fd" font-family="monospace" font-size="12">LiateIntegration</text>
+    <line x1="20" y1="120" x2="160" y2="120" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="145" fill="#CBD5E1" font-family="monospace" font-size="11">• Session Memory</text>
+    <text x="20" y="165" fill="#CBD5E1" font-family="monospace" font-size="11">• Vector Search</text>
+    <text x="20" y="185" fill="#CBD5E1" font-family="monospace" font-size="11">• LiateDB Collections</text>
+    <text x="20" y="205" fill="#CBD5E1" font-family="monospace" font-size="11">• Webhook Triggers</text>
+    <text x="20" y="225" fill="#a78bfa" font-family="monospace" font-size="11">• Delta State Sync</text>
+  </g>
+
+  <!-- A: Agent -->
+  <g transform="translate(450, 95)">
+    <rect width="200" height="240" rx="12" fill="url(#pA)" stroke="#FF6B00" stroke-width="2"/>
+    <circle cx="100" cy="38" r="22" fill="#FF6B00" fill-opacity="0.25"/>
+    <text x="91" y="47" fill="#FF9E00" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="24" font-weight="900">A</text>
+    <text x="100" y="85" text-anchor="middle" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15" font-weight="800">Agent Persona &amp; Loop</text>
+    <text x="100" y="105" text-anchor="middle" fill="#fed7aa" font-family="monospace" font-size="12">LiateAgent / Loop</text>
+    <line x1="20" y1="120" x2="180" y2="120" stroke="#FF6B00" stroke-width="1"/>
+    <text x="20" y="145" fill="#F1F5F9" font-family="monospace" font-size="11" font-weight="bold">• ReAct Reasoning Loop</text>
+    <text x="20" y="165" fill="#CBD5E1" font-family="monospace" font-size="11">• Typed Persona &amp; Goal</text>
+    <text x="20" y="185" fill="#CBD5E1" font-family="monospace" font-size="11">• LiateSkills Catalog</text>
+    <text x="20" y="205" fill="#CBD5E1" font-family="monospace" font-size="11">• 51 Sovereign Classes</text>
+    <text x="20" y="225" fill="#FF9E00" font-family="monospace" font-size="11">• Multi-Agent Graphs</text>
+  </g>
+
+  <!-- T: Tools -->
+  <g transform="translate(670, 95)">
+    <rect width="180" height="240" rx="12" fill="url(#pT)" stroke="#00F0FF" stroke-width="1.5"/>
+    <circle cx="90" cy="38" r="22" fill="#00F0FF" fill-opacity="0.2"/>
+    <text x="82" y="47" fill="#00F0FF" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="24" font-weight="900">T</text>
+    <text x="90" y="85" text-anchor="middle" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15" font-weight="700">Tools &amp; MCP</text>
+    <text x="90" y="105" text-anchor="middle" fill="#67e8f9" font-family="monospace" font-size="12">LiateTools / Mcp</text>
+    <line x1="20" y1="120" x2="160" y2="120" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="145" fill="#CBD5E1" font-family="monospace" font-size="11">• MCP Server Protocol</text>
+    <text x="20" y="165" fill="#CBD5E1" font-family="monospace" font-size="11">• OAuth 2.1 Auth</text>
+    <text x="20" y="185" fill="#CBD5E1" font-family="monospace" font-size="11">• Custom Functions</text>
+    <text x="20" y="205" fill="#CBD5E1" font-family="monospace" font-size="11">• Skills.sh Registry</text>
+    <text x="20" y="225" fill="#00F0FF" font-family="monospace" font-size="11">• Streamable MCP</text>
+  </g>
+
+  <!-- E: Environment -->
+  <g transform="translate(870, 95)">
+    <rect width="180" height="240" rx="12" fill="url(#pE)" stroke="#10b981" stroke-width="1.5"/>
+    <circle cx="90" cy="38" r="22" fill="#10b981" fill-opacity="0.2"/>
+    <text x="82" y="47" fill="#34d399" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="24" font-weight="900">E</text>
+    <text x="90" y="85" text-anchor="middle" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="15" font-weight="700">Environment &amp; Guard</text>
+    <text x="90" y="105" text-anchor="middle" fill="#6ee7b7" font-family="monospace" font-size="12">LiateEnv / Guard</text>
+    <line x1="20" y1="120" x2="160" y2="120" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="145" fill="#CBD5E1" font-family="monospace" font-size="11">• DPDP PII Redaction</text>
+    <text x="20" y="165" fill="#CBD5E1" font-family="monospace" font-size="11">• ₹ Token Budgets</text>
+    <text x="20" y="185" fill="#CBD5E1" font-family="monospace" font-size="11">• HITL Approval Gates</text>
+    <text x="20" y="205" fill="#CBD5E1" font-family="monospace" font-size="11">• Turn Rate Limits</text>
+    <text x="20" y="225" fill="#34d399" font-family="monospace" font-size="11">• JS Sandbox Safety</text>
+  </g>
+
+  <!-- Bottom Unifying Bar -->
+  <g transform="translate(50, 355)">
+    <rect width="1000" height="55" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+    <text x="500" y="34" text-anchor="middle" fill="#F1F5F9" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" font-weight="600">
+      ⚡ Universal Execution Runtime: <tspan fill="#FF9E00">Local LAPI/v1 Engine (:7071)</tspan> ⇄ <tspan fill="#38BDF8">Cloud MicroVM Runtime (Mumbai ap-south-1)</tspan>
+    </text>
+  </g>
+</svg>

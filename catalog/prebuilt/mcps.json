@@ -1,0 +1,89 @@
+{
+  "mcps": [
+    {
+      "name": "time",
+      "description": "Get current time and timezone conversions",
+      "command": "uvx",
+      "args": ["mcp-server-time", "--local-timezone", "Asia/Kolkata"],
+      "tags": ["time", "timezone", "utility"],
+      "official": true
+    },
+    {
+      "name": "filesystem",
+      "description": "Read, write, and manage local files and directories",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."],
+      "tags": ["files", "io", "local"],
+      "official": true
+    },
+    {
+      "name": "github",
+      "description": "Interact with GitHub repositories, issues, PRs, and code",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": { "GITHUB_PERSONAL_ACCESS_TOKEN": "$GITHUB_TOKEN" },
+      "tags": ["github", "git", "code"],
+      "official": true
+    },
+    {
+      "name": "brave-search",
+      "description": "Real-time web search via Brave Search API",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "env": { "BRAVE_API_KEY": "$BRAVE_API_KEY" },
+      "tags": ["search", "web", "realtime"],
+      "official": true
+    },
+    {
+      "name": "postgres",
+      "description": "Query and manage PostgreSQL databases",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": { "POSTGRES_URL": "$DATABASE_URL" },
+      "tags": ["database", "sql", "postgres"],
+      "official": true
+    },
+    {
+      "name": "sqlite",
+      "description": "Query and manage SQLite databases",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sqlite", "--db-path", "./data.db"],
+      "tags": ["database", "sql", "sqlite", "local"],
+      "official": true
+    },
+    {
+      "name": "puppeteer",
+      "description": "Browser automation — navigate, scrape, and interact with web pages",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
+      "tags": ["browser", "scraping", "automation"],
+      "official": true
+    },
+    {
+      "name": "memory",
+      "description": "Persistent key-value memory store across agent sessions",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "tags": ["memory", "persistence", "kv"],
+      "official": true
+    },
+    {
+      "name": "slack",
+      "description": "Send messages and interact with Slack workspaces",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "env": { "SLACK_BOT_TOKEN": "$SLACK_BOT_TOKEN", "SLACK_TEAM_ID": "$SLACK_TEAM_ID" },
+      "tags": ["slack", "messaging", "notifications"],
+      "official": true
+    },
+    {
+      "name": "google-maps",
+      "description": "Location data, directions, and place search via Google Maps",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-google-maps"],
+      "env": { "GOOGLE_MAPS_API_KEY": "$GOOGLE_MAPS_API_KEY" },
+      "tags": ["maps", "location", "india"],
+      "official": true
+    }
+  ]
+}

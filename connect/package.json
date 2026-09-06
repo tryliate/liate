@@ -1,0 +1,14 @@
+{
+  "name": "connect",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run app.ts",
+    "run": "liate run ./liate.json",
+    "serve": "liate serve --port 7071",
+    "start": "bun run app.ts"
+  },
+  "dependencies": {
+    "liate": "^1.0.0"
+  }
+}

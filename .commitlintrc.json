@@ -1,0 +1,26 @@
+{
+  "extends": ["@commitlint/config-conventional"],
+  "rules": {
+    "scope-enum": [
+      2,
+      "always",
+      [
+        "core",
+        "pillars",
+        "lapi",
+        "llm_engine",
+        "mcp_engine",
+        "store",
+        "cli",
+        "examples",
+        "docs",
+        "tests",
+        "ci",
+        "deps",
+        "release"
+      ]
+    ],
+    "subject-case": [2, "always", "lower-case"],
+    "header-max-length": [2, "always", 100]
+  }
+}
