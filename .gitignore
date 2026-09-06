@@ -43,7 +43,7 @@ test-omni-agent/
 *-agent/
 liate_skills.json
 liate_mcp.json
-skills/
+/skills/
 
 # IDE & Operating System
 .DS_Store
