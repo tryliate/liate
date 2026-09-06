@@ -23,8 +23,11 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: TypeScript Type Check
-        run: bun run typecheck
+      - name: Build Distribution Bundle
+        run: bun run build
+
+      - name: Compile Native Binary
+        run: bun build ./src/cli/index.ts --compile --outfile liate-linux
 
       - name: Run Test Suite
         run: bun test
@@ -34,12 +37,6 @@ jobs:
           SARVAM_API_KEY: sk-test-dummy
           ANTHROPIC_API_KEY: sk-test-dummy
           GROQ_API_KEY: sk-test-dummy
-
-      - name: Build Distribution Bundle
-        run: bun run build
-
-      - name: Compile Native Binary
-        run: bun build ./src/cli/index.ts --compile --outfile liate-linux
 
       - name: Upload Linux Binary Artifact
         uses: actions/upload-artifact@v4

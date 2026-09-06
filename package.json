@@ -22,7 +22,7 @@
     "test:watch": "bun test --watch",
     "build": "bun build ./src/index.ts --outdir ./dist --target node && bun build ./src/cli/index.ts --outfile ./dist/cli.js --target node",
     "compile": "bun build ./src/cli/index.ts --compile --outfile dist/liate",
-    "typecheck": "bunx tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@clack/core": "^1.4.3",
