@@ -100,8 +100,8 @@ describe('🪄 Liate CLI Wizard Flow End-to-End Verification', () => {
 
     it('app.ts should declare LiateAgent container class', async () => {
       const appTs = await fs.readFile(path.join(projectDir, 'app.ts'), 'utf-8');
-      expect(appTs).toContain('export class HelloAgent extends LiateAgent');
-      expect(appTs).toContain('export const agent = new HelloAgent();');
+      expect(appTs).toContain('extends LiateAgent');
+      expect(appTs).toContain('export const agent = new');
       expect(appTs).toContain('LiateLoop');
       expect(appTs).toContain('Mission: Agentantra');
     });

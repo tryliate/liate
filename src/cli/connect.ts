@@ -113,7 +113,7 @@ export async function runConnectWizard(options?: { provider?: string }): Promise
       const roleInput = await p.text({
         message: 'Enter IAM Role ARN:',
         placeholder: 'arn:aws:iam::123456789012:role/LiateMicroVMDeploymentRole',
-        validate: (v) => (!v.startsWith('arn:aws:iam::') ? 'Must be a valid IAM Role ARN' : undefined),
+        validate: (v) => (!v || !v.startsWith('arn:aws:iam::') ? 'Must be a valid IAM Role ARN' : undefined),
       });
       if (p.isCancel(roleInput)) { p.cancel('Canceled.'); return; }
       roleArn = roleInput as string;
@@ -319,7 +319,7 @@ export async function runConnectWizard(options?: { provider?: string }): Promise
     const urlInput = await p.text({
       message: 'Enter your Supabase Project URL:',
       placeholder: 'https://xxxx.supabase.co',
-      validate: (v) => (!v.startsWith('https://') ? 'Must start with https://' : undefined),
+      validate: (v) => (!v || !v.startsWith('https://') ? 'Must start with https://' : undefined),
     });
     if (p.isCancel(urlInput)) { p.cancel('Canceled.'); return; }
 
