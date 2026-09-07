@@ -137,6 +137,9 @@ describe('🪄 Liate CLI Wizard Flow End-to-End Verification', () => {
     });
 
     it('liate run ./liate.json should execute agent in the newly created project', async () => {
+      const sarvamKey = process.env.SARVAM_API_KEY || '';
+      const isRealKey = sarvamKey && !sarvamKey.startsWith('sk-test') && !sarvamKey.startsWith('sk_test');
+      if (!isRealKey) return;
       const res = await runCli('run liate.json "Greetings from the wizard test"', projectDir);
       expect(res.code).toBe(0);
       expect(res.stdout).toContain(`Running agent: "${agentName}"`);

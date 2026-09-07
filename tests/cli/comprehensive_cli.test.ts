@@ -44,6 +44,7 @@ describe('🛠️ Comprehensive Liate CLI End-to-End Test Suite', () => {
     await fs.mkdir(runProjectDir, { recursive: true });
 
     const SARVAM_KEY = process.env.SARVAM_API_KEY || 'sk_test_dummy_key';
+    const isRealKey = SARVAM_KEY && !SARVAM_KEY.startsWith('sk-test') && !SARVAM_KEY.startsWith('sk_test');
 
     const testSpec = {
       L: 'sarvam/sarvam-105b',
@@ -137,6 +138,9 @@ describe('🛠️ Comprehensive Liate CLI End-to-End Test Suite', () => {
   // ─── 4. Agent Execution & Lockfile ────────────────────────────────────────
   describe('4. Agent Execution & Deterministic Lockfile (run & lock)', () => {
     it('liate run <file> "prompt" should execute 5-pillar agent spec', async () => {
+      const SARVAM_KEY = process.env.SARVAM_API_KEY || '';
+      const isRealKey = SARVAM_KEY && !SARVAM_KEY.startsWith('sk-test') && !SARVAM_KEY.startsWith('sk_test');
+      if (!isRealKey) return;
       const res = await runCli(`run liate.json "Hello CLI test"`, runProjectDir);
       expect(res.code).toBe(0);
       expect(res.stdout).toContain('Running agent: "cli-tester"');
