@@ -1,6 +1,7 @@
 {
   "name": "liate",
   "version": "1.0.0",
+  "type": "module",
   "description": "Liate — India's Sovereign AI Agents Platform. Write OOP classes in any language, run agents free forever locally. Agentantra Mission.",
   "main": "dist/index.js",
   "module": "src/index.ts",
