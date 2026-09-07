@@ -1,5 +1,5 @@
 import { handle } from 'hono/vercel';
-import { createLapiApp, WSHub } from '../src/lapi';
+import { createLapiApp, WSHub } from '../dist/index.js';
 
 const wsHub = new WSHub();
 const app = createLapiApp(wsHub);
