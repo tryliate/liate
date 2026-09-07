@@ -4,9 +4,15 @@ import vm from 'node:vm';
  * [39] - LiateSandbox (Sovereign Isolated Code Execution & Safety Chamber)
  * 
  * Dual-Mode Execution:
- * 1. Local Mode: Fast, zero-network Node.js VM sandbox for math & quick algorithms.
- * 2. Cloud Mode: Real hardware Firecracker MicroVM on AWS in Mumbai (via https://api.tryliate.com).
- *    Supports multi-language execution (Python, Bash, Node.js, Playwright, UV) with 10-second micro-metering.
+ * 1. **Local Mode** (default, free forever): Fast, zero-network Node.js VM sandbox.
+ *    Safe for math, algorithms, and quick expression evaluation. No API key required.
+ *    Usage: `new LiateSandbox({ mode: 'local' })`
+ *
+ * 2. **Cloud Mode** (Liate Platform — requires account & LIATE_API_KEY):
+ *    Real hardware Firecracker MicroVM on AWS Mumbai (https://api.tryliate.com).
+ *    Supports multi-language execution: Python, Bash, Node.js, Playwright, UV.
+ *    Usage: `LiateSandbox.create({ mode: 'cloud', apiKey: process.env.LIATE_API_KEY })`
+ *    Sign up at https://tryliate.com to get a Liate Platform account.
  */
 
 export type SandboxMode = 'local' | 'cloud';
@@ -69,7 +75,10 @@ export class LiateSandbox {
   }
 
   /**
-   * Static factory to create a live Cloud MicroVM sandbox
+   * Static factory to create a live Cloud MicroVM sandbox.
+   * 
+   * @requires LIATE_API_KEY — Liate Platform account (https://tryliate.com)
+   * @note Cloud-only. For local-only sandboxing use `new LiateSandbox()` (mode: 'local')
    */
   public static async create(options: SandboxOptions = {}): Promise<LiateSandbox> {
     const sandbox = new LiateSandbox({ ...options, mode: 'cloud' });
@@ -78,7 +87,11 @@ export class LiateSandbox {
   }
 
   /**
-   * Initialize a remote cloud MicroVM on Liate Platform
+   * Initialize a remote cloud MicroVM on Liate Platform.
+   * 
+   * @requires LIATE_API_KEY env variable — get yours at https://tryliate.com
+   * @note Cloud-only method. Not available in local mode or self-hosted deployments.
+   * @throws {Error} If LIATE_API_KEY is missing or the MicroVM provisioning request fails.
    */
   private async initCloudSandbox(): Promise<void> {
     const url = `${this.baseUrl}/v1/sandboxes`;
@@ -119,7 +132,10 @@ export class LiateSandbox {
   }
 
   /**
-   * Execute bash or terminal command inside the isolated Cloud MicroVM
+   * Execute bash or terminal command inside the isolated Cloud MicroVM.
+   * 
+   * @requires Liate Platform account (https://tryliate.com) and LIATE_API_KEY
+   * @note Cloud-only. For local JS sandboxing, use `run(code, { mode: 'local' })` instead.
    */
   public async exec(command: string): Promise<SandboxResult> {
     const startTime = Date.now();

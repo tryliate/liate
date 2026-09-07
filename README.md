@@ -255,7 +255,7 @@ Every `liate dev` server exposes **35+ REST + WebSocket endpoints** at `:7071`:
 
 Liate is verified with a two-tier quality & testing pipeline:
 
-- **Native Unit & Integration Suite**: 123+ unit and integration test cases verifying all 51 OOP classes, ReAct reasoning loops, universal MCP server protocols, and token budgets (`bun test`).
+- **Native Unit & Integration Suite**: 198 test cases across 15 test suites verifying all 51 OOP classes, ReAct reasoning loops, universal MCP server protocols, and token budgets (`bun test`).
 - **Autonomous Cloud QA by TestSprite**: End-to-end browser workflows, API contracts, and availability verified by **[TestSprite](https://testsprite.com)** AI QA agents.
 
 ---

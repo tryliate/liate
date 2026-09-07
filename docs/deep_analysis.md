@@ -11,8 +11,8 @@
 | Total Source Code Size | **1,435 KB (1.4 MB)** |
 | Source-only (`src/`) files | **103 files** |
 | Source-only code size | **505 KB** |
-| Test files | **12 suites** |
-| Tests passing | **133 / 133** |
+| Test files | **15 suites** |
+| Tests passing | **198 / 198** |
 | ADK language targets | **8** |
 | Exported public classes | **51** |
 | CLI commands | **22** |

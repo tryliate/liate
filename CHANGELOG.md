@@ -91,7 +91,7 @@ This is the inaugural open-source release of **Liate** — India's **Sovereign A
 - STT: ₹30.00/hr (₹45.00/hr with diarization)
 - Doc AI: ₹0.50/page (digitisation), ₹1.00/page (extraction)
 
-#### Tests
+#### Tests (198 cases across 15 suites)
 - `tests/core/token_optimizer.test.ts` — Token optimizer unit tests
 - `tests/pillars/token.test.ts` — LiateToken comprehensive tests
 - `tests/pillars/eval.test.ts` — LiateEval quality gate tests
