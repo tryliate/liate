@@ -1,0 +1,17 @@
+node_modules
+.git
+.agents
+dist
+benchmarks
+tests
+testsprite_tests
+docs
+examples
+adk
+connect
+.liate
+liate_memory
+liate_sessions
+*.log
+scratch
+public
