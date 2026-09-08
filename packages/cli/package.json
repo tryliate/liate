@@ -1,0 +1,27 @@
+{
+  "name": "@liate/cli",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Liate Sovereign AI Agent Runtime CLI",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "bin": {
+    "liate": "./src/index.ts"
+  },
+  "dependencies": {
+    "@clack/core": "^1.4.3",
+    "@clack/prompts": "^1.7.0",
+    "@liate/optimizer": "workspace:*",
+    "@liate/runtime": "workspace:*",
+    "@liate/sdk": "workspace:*",
+    "@liate/server": "workspace:*",
+    "@liate/store": "workspace:*",
+    "adm-zip": "^0.5.18",
+    "cross-spawn": "^7.0.6",
+    "fast-string-width": "^3.0.2",
+    "fast-wrap-ansi": "^0.2.2",
+    "is-unicode-supported": "^2.1.0",
+    "picocolors": "^1.1.1",
+    "sisteransi": "^2.0.0"
+  }
+}

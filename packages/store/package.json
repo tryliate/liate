@@ -1,0 +1,11 @@
+{
+  "name": "@liate/store",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Liate Persistent Storage, Sessions, Vector Memory, and Catalog Registry",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@liate/optimizer": "workspace:*"
+  }
+}

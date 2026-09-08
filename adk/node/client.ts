@@ -256,7 +256,7 @@ export class LiateAgent {
 
     // Direct in-process execution fallback
     try {
-      const { runLiateAgent } = await import('../../src/aum');
+      const { runLiateAgent } = await import('@liate/runtime');
       return await runLiateAgent(spec as any, prompt, undefined, undefined, process.cwd());
     } catch (err: any) {
       throw new Error(`[Liate Execution Error]: ${err.message || err}`);
@@ -407,7 +407,7 @@ import {
   LiateToken, 
   type LiateTokenOptions, 
   type TokenCostResult
-} from '../../src/oop';
+} from '@liate/sdk';
 
 export { LiateMcp, type LiateMcpOptions, type McpToolConfig, type McpResourceConfig, type McpPromptConfig };
 export { LiateEval, type LiateEvalOptions, type EvalTestCase, type LiateEvalReport };

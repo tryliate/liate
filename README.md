@@ -33,7 +33,7 @@
 
 On the **Liate Platform**, every developer claims a unique **Liate ID** (e.g. `@vinod` / `vinod.liate.id`). Run `liate connect` to instantly link your local agents to your Liate ID workspace running inside an isolated MicroVM:
 
-* **Isolated Per-User Compute:** Connect agents in 1 command (`liate connect`). Each agent executes in an isolated MicroVM sandbox tied to your Liate ID.
+* **Isolated Per-User Compute:** Connect agents in 1 command (`liate connect`). Each agent executes in an isolated cloud runtime tied to your Liate ID.
 * **Isolated API Endpoints:** Every connected agent gets an instant production endpoint:  
   `https://api.tryliate.com/v1/u/{liate_id}/agents/{agent_name}`
 * **Isolated Key Vaults & MCP Tools:** Your API keys (`SARVAM_API_KEY`, `OPENAI_API_KEY`), vector databases, and custom MCP connectors are encrypted and isolated per Liate ID.

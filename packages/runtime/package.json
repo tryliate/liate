@@ -1,0 +1,13 @@
+{
+  "name": "@liate/runtime",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Liate Sovereign AI Agent Runtime & ReAct Execution Engine",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@liate/optimizer": "workspace:*",
+    "@liate/store": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.30.0"
+  }
+}

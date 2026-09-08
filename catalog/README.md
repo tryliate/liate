@@ -1,22 +1,24 @@
-# 📚 Liate Sovereign Agent Catalog
+# 📚 Liate Sovereign Component Catalog & Registry
 
-Prebuilt, battle-tested 5-Pillar (`L-I-A-T-E`) agent manifests ready to run out of the box or customize for your sovereign workflows.
+Official registry for sovereign agent building blocks: LLM providers, Model Context Protocol (MCP) servers, and community skills.
 
-## 📂 Catalog Structure
+## 📂 Registry Structure
 
-- **`prebuilt/`** — Officially maintained agent templates verified by the Tryliate team
-- **`community/`** — Community-contributed agent specifications
+- **`prebuilt/llm.json`** — Verified local & cloud LLM providers (Sarvam AI, Ollama, OpenAI-compatible, etc.)
+- **`prebuilt/mcps.json`** — Pre-configured, sovereign Model Context Protocol servers
+- **`prebuilt/skills.json`** — Verified agent skill packages and capabilities
+- **`community/mcps.json`** — Community-contributed MCP servers and tools
 
-## 🚀 Running a Catalog Agent
+## 🚀 Usage
 
-Execute any catalog agent directly using the `liate` CLI:
-
-```bash
-liate run catalog/prebuilt/bharat-business-analyst.json "Analyze Q3 market trends for renewable energy in India"
-```
-
-Or initialize a new project based on a catalog template:
+Discover and install components using the `liate` CLI:
 
 ```bash
-liate init --template bharat-business-analyst
+# Search and install skills
+liate skills search
+liate skills install <skill-name>
+
+# Search and configure MCP servers
+liate mcp search
+liate mcp add <mcp-name>
 ```

@@ -1,0 +1,11 @@
+{
+  "name": "@liate/optimizer",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Liate Token Optimizer, Sovereign Lock Integrity, and Telemetry Streams",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "zod": "^3.25.76"
+  }
+}

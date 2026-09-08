@@ -11,10 +11,27 @@
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": false,
     "skipLibCheck": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@liate/optimizer": ["./packages/optimizer/src/index.ts"],
+      "@liate/optimizer/*": ["./packages/optimizer/src/*"],
+      "@liate/store": ["./packages/store/src/index.ts"],
+      "@liate/store/*": ["./packages/store/src/*"],
+      "@liate/runtime": ["./packages/runtime/src/index.ts"],
+      "@liate/runtime/*": ["./packages/runtime/src/*"],
+      "@liate/sdk": ["./packages/sdk/src/index.ts"],
+      "@liate/sdk/*": ["./packages/sdk/src/*"],
+      "@liate/server": ["./packages/server/src/index.ts"],
+      "@liate/server/*": ["./packages/server/src/*"],
+      "@liate/cli": ["./packages/cli/src/index.ts"],
+      "@liate/cli/*": ["./packages/cli/src/*"]
+    }
   },
   "include": [
-    "src/**/*",
+    "index.ts",
+    "packages/**/*",
+    "adk/**/*",
     "tests/**/*",
     "examples/**/*",
     "scripts/**/*"
@@ -23,6 +40,7 @@
     "node_modules",
     "dist",
     "_backup",
+    "_backup_legacy_src",
     "backup",
     "my-omni-test",
     "test-omni-agent",

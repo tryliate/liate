@@ -1,0 +1,14 @@
+{
+  "name": "@liate/sdk",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Liate 5-Pillar OOP Agent Class Abstractions and Developer Framework",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@liate/optimizer": "workspace:*",
+    "@liate/runtime": "workspace:*",
+    "@liate/server": "workspace:*",
+    "@liate/store": "workspace:*"
+  }
+}

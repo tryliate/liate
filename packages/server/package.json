@@ -1,0 +1,15 @@
+{
+  "name": "@liate/server",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Liate LAPI Hono HTTP & WebSocket Autonomous Agent Server",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@liate/optimizer": "workspace:*",
+    "@liate/runtime": "workspace:*",
+    "@liate/sdk": "workspace:*",
+    "@liate/store": "workspace:*",
+    "hono": "^4.13.4"
+  }
+}
