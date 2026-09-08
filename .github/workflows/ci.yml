@@ -30,7 +30,7 @@ jobs:
         run: bun run build
 
       - name: Compile Native Binary
-        run: bun build ./src/cli/index.ts --compile --outfile liate-linux
+        run: bun build ./packages/cli/src/index.ts --compile --outfile liate-linux
 
       - name: Run Test Suite
         run: bun test
