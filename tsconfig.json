@@ -30,6 +30,7 @@
   },
   "include": [
     "index.ts",
+    "api/**/*",
     "packages/**/*",
     "adk/**/*",
     "tests/**/*",
