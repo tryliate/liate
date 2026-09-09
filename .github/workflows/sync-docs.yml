@@ -13,19 +13,32 @@ jobs:
     name: Sync Docs to Liate Platform
     runs-on: ubuntu-latest
     steps:
+      - name: Check Token Availability
+        id: check-token
+        run: |
+          if [ -z "${{ secrets.PLATFORM_SYNC_TOKEN }}" ]; then
+            echo "PLATFORM_SYNC_TOKEN secret is not set. Skipping platform docs sync."
+            echo "has_token=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_token=true" >> $GITHUB_OUTPUT
+          fi
+
       - name: Checkout Open-Source Liate
+        if: steps.check-token.outputs.has_token == 'true'
         uses: actions/checkout@v4
         with:
           path: liate-oss
 
       - name: Checkout Closed-Source Liate Platform
+        if: steps.check-token.outputs.has_token == 'true'
         uses: actions/checkout@v4
         with:
           repository: tryliate/liate-platform
-          token: ${{ secrets.PLATFORM_SYNC_TOKEN || secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PLATFORM_SYNC_TOKEN }}
           path: liate-platform
 
       - name: Sync Docs Content
+        if: steps.check-token.outputs.has_token == 'true'
         run: |
           mkdir -p liate-platform/content/docs
           rsync -av --delete liate-oss/docs/ liate-platform/content/docs/
@@ -39,3 +52,4 @@ jobs:
             git commit -m "docs: sync updated documentation from tryliate/liate [skip ci]"
             git push origin main
           fi
+
