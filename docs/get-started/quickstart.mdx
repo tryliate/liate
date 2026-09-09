@@ -1,0 +1,148 @@
+---
+icon: "Rocket"
+title: "Quickstart"
+description: "Get OM running locally and execute your first sovereign AI agent in under 60 seconds."
+category: "GETTING STARTED"
+---
+
+<div id="prerequisites" className="scroll-mt-24 mb-8">
+  ## Prerequisites
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    OM requires only <strong>Bun</strong> — the all-in-one JavaScript runtime. No Python, no Node.js version conflicts, no Docker.
+  </div>
+
+```bash
+# Install Bun (macOS / Linux)
+curl -fsSL https://bun.sh/install | bash
+
+# Windows
+powershell -c "irm bun.sh/install.ps1 | iex"
+
+# Verify
+bun --version  # Should print 1.x.x
+```
+
+</div>
+
+<div id="install-om" className="scroll-mt-24 mb-8">
+  ## 1. Install OM Runtime
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    Clone the open-source OM runtime and install dependencies. OM is a Bun-native, Hono-powered sovereign agent engine.
+  </div>
+
+```bash
+git clone https://github.com/tryliate/om.git
+cd om
+bun install
+```
+
+</div>
+
+<div id="set-api-key" className="scroll-mt-24 mb-8">
+  ## 2. Set Your API Key (BYOK)
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    OM is <strong>Bring Your Own Key (BYOK)</strong>. Your API keys are stored locally in <code>~/.liate/.env</code> — never sent to any Liate server.
+  </div>
+
+```bash
+# Add your Sarvam AI key (India's sovereign LLM)
+echo "SARVAM_API_KEY=sk_live_your_key_here" >> ~/.liate/.env
+
+# Or OpenAI / Anthropic / Google
+echo "OPENAI_API_KEY=sk-your_key_here" >> ~/.liate/.env
+echo "ANTHROPIC_API_KEY=sk-ant-your_key_here" >> ~/.liate/.env
+```
+
+</div>
+
+<div id="start-om" className="scroll-mt-24 mb-8">
+  ## 3. Start the OM Runtime
+
+```bash
+bun run dev
+```
+
+```
+================================================================================
+[OM RUNTIME] SOVEREIGN AGENT ENGINE (HONO + BUN NATIVE)
+================================================================================
+[HTTP REST API]   http://localhost:7071
+[WEBSOCKET HUB]   ws://localhost:7071
+[FRAMEWORK]       Hono v4.13 (Edge & Cloudflare Workers Ready)
+================================================================================
+```
+
+</div>
+
+<div id="create-agent" className="scroll-mt-24 mb-8">
+  ## 4. Create Your First Agent
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    Create a <code>liate.json</code> — the 5-Pillar sovereign agent specification.
+  </div>
+
+```json
+{
+  "L": "sarvam/sarvam-m",
+  "A": {
+    "name": "my-first-agent",
+    "intent": "You are a helpful assistant. Be concise and accurate."
+  },
+  "T": {
+    "time": {
+      "command": "uvx",
+      "args": ["mcp-server-time"],
+      "tools": ["get_current_time"]
+    }
+  },
+  "E": {
+    "SARVAM_API_KEY": "$SARVAM_API_KEY"
+  }
+}
+```
+
+</div>
+
+<div id="run-agent" className="scroll-mt-24 mb-8">
+  ## 5. Run Your Agent
+
+```bash
+curl -X POST http://localhost:7071/api/spec/run \
+  -H "Content-Type: application/json" \
+  -d '{
+    "spec": '"$(cat liate.json)"',
+    "prompt": "What time is it in India right now?"
+  }'
+```
+
+**Response:**
+```json
+{
+  "result": "Good Evening! 🌙 The current time in India (IST) is 6:04 PM on August 21, 2026.",
+  "metrics": {
+    "turns": 2,
+    "totalTokens": 312,
+    "costINR": 0.000078,
+    "profitMargin": "99.99%"
+  }
+}
+```
+
+</div>
+
+<div id="next-steps" className="scroll-mt-24 mb-8">
+  ## Next Steps
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="p-4 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
+      ### 📋 OM Runtime
+      <div className="text-xs text-black/60 dark:text-white/60">Deep dive into the full OM architecture, all REST APIs, and WebSocket streaming.</div>
+    </div>
+    <div className="p-4 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
+      ### 🔌 MCP Tools
+      <div className="text-xs text-black/60 dark:text-white/60">Connect web crawlers, email gateways, databases, and any MCP server to your agent.</div>
+    </div>
+    <div className="p-4 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
+      ### ☁️ Deploy to Cloud
+      <div className="text-xs text-black/60 dark:text-white/60">Launch your agent on a dedicated Liate Sovereign MicroVM with 1-Click Supabase BYOD.</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+---
+title: "EkaMantra & AUM (ॐ): The Declarative Open Standard"
+description: "Explore the 5-pillar EkaMantra specification (L, I, A, T, E) and how the Agent Unified Manifest (AUM) makes AI agents portable and reviewable in Git PRs."
+icon: "cube"
+---
+
+In ancient Indian philosophy, **AUM (ॐ)** represents the primordial seed sound that manifests creation. In the Liate ecosystem, **AUM** stands for the **Agent Unified Manifest** — the declarative standard that manifests autonomous agents from simple JSON into living execution.
+
+Just as `package.json` unified Node.js packages and `Dockerfile` unified containerization, **`liate.json` is the open standard for sovereign AI agents**.
+
+---
+
+## The 5 Pillars of EkaMantra (`L · I · A · T · E`)
+
+`liate.json` organizes an autonomous agent into five clean, orthogonal keys:
+
+### 1. `L` — LLM Provider & Model
+Defines the intelligence core. Agentantra natively supports local Ollama models, Indian sovereign providers (Sarvam AI), and global frontier APIs:
+```json
+"L": "sarvam/sarvam-105b"
+```
+
+### 2. `I` — Integration & Session Memory
+Manages stateful persistence, conversation history, and local vector stores. Memory stays strictly isolated to the user's host:
+```json
+"I": {
+  "memory": "sessions/analyst-session-01"
+}
+```
+
+### 3. `A` — Agent Identity, Intent & Skills
+Contains the agent's name, system prompt, goal boundary, and external markdown skill sheets:
+```json
+"A": {
+  "name": "data-analyst",
+  "intent": "Perform financial vector analytics on Indian equities.",
+  "skills": "./skills.md"
+}
+```
+
+### 4. `T` — Tools & Universal MCP Servers
+Declares external capabilities via Anthropic's Model Context Protocol (MCP) or native binary plugins:
+```json
+"T": {
+  "postgres-tool": {
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-postgres"]
+  }
+}
+```
+
+### 5. `E` — Environment & Security Guardrails
+Defines environment variables, runtime secrets, and max execution turn boundaries:
+```json
+"E": {
+  "MAX_TURNS": "15",
+  "DB_URI": "$SOVEREIGN_DB_URI"
+}
+```
+
+---
+
+## Why Declarative Standardization Wins
+
+- **Version Controlled:** Agents are committed to Git repositories and reviewed through standard Pull Requests.
+- **Zero Lock-In:** Move agents effortlessly from local developer machines to dedicated Mumbai sovereign cloud clusters without changing a single line of application code.
+- **Security Auditability:** Security teams can inspect an agent's entire permission matrix and tool access in under 10 seconds.

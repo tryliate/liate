@@ -1,0 +1,135 @@
+---
+icon: "Cpu"
+title: "Li8 Runtime Overview"
+description: "Li8 is the open-source, Bun-native, Hono-powered sovereign AI agent runtime that executes liate.json specifications."
+---
+
+<div id="what-is-li8" className="scroll-mt-24 mb-8">
+
+**Li8** (`🕉️`, `@tryliate/li8`) is the open-source heart of the Liate ecosystem. It is a **Bun-native, Hono-powered AI agent runtime** that reads a `liate.json` 5-Pillar specification and executes it as a fully autonomous AI agent with:
+
+- Multi-turn **ReAct agent loop** (Reason → Act → Observe cycles)
+- Native **Model Context Protocol (MCP)** bridge for any tool server
+- Real-time **WebSocket event streaming** to your UI
+- Built-in **token optimizer** that reduces LLM costs by 70–85%
+- Flat-file **sovereign store** at `~/.liate/` (no database required)
+
+</div>
+
+<div id="technology-stack" className="scroll-mt-24 mb-8">
+  ## Technology Stack
+
+| Layer | Technology | Version | Role |
+|-------|-----------|---------|------|
+| **Runtime** | Bun | Latest | Native HTTP, child process spawning, file I/O |
+| **HTTP Framework** | Hono | v4.13.3 | Ultra-fast edge router — CORS, middleware, routing |
+| **WebSocket** | Bun.serve native | Latest | Zero-library real-time streaming hub |
+| **MCP Protocol** | `@modelcontextprotocol/sdk` | v1.29.0 | Stdio, SSE, and HTTP MCP transport bridges |
+| **Validation** | Zod | v3.22.4 | Type-safe request/response schema validation |
+| **Language** | TypeScript | v5.5.3 | 100% type-safe — zero transpile step at runtime |
+
+</div>
+
+<div id="execution-pipeline" className="scroll-mt-24 mb-8">
+  ## The 5-Pillar Execution Pipeline
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    Every agent invocation flows through exactly 5 stages, one per pillar of <code>liate.json</code>:
+  </div>
+
+```
+liate.json
+    │
+    ▼  [L] Model Resolution
+    │  Parses "sarvam/sarvam-105b" → provider + model
+    │  Resolves API key: E-pillar → ~/.liate/.env → env vars
+    │
+    ▼  [A] Agent Identity & Skills
+    │  Loads A.intent as system prompt
+    │  Reads skills.md → injects as [PROCEDURAL SKILL] block
+    │
+    ▼  [T] MCP Tool Server Boot
+    │  Stdio  → uvx, npx, websearch.exe (child process pipe)
+    │  SSE    → remote event stream (https://mcp.example.com/sse)
+    │  HTTP   → streamable JSON-RPC endpoint
+    │  Lists tools, filters by T.tools=["*"]
+    │
+    ▼  [I] Memory & Context
+    │  Loads session from ~/.liate/sessions/<id>.json
+    │  Injects as prior conversation turns
+    │
+    ▼  ReAct Agent Loop (max 5 turns)
+       Turn N: systemPrompt + messages → LLM → response
+         ├── toolCalls[] → execute → append results → Turn N+1
+         └── text response → RESULT event → DONE
+             │
+             Cleanup: Close all MCP stdio pipes and SSE streams
+```
+
+</div>
+
+<div id="source-files" className="scroll-mt-24 mb-8">
+  ## Source File Map
+
+```
+om/src/
+├── index.ts                ← Bun.serve() entry: HTTP + WebSocket on Port 7071
+├── core/
+│   ├── om_runtime.ts       ← 5-Pillar ReAct agent loop (341 lines)
+│   ├── mcp.ts              ← Triple-transport MCP bridge (211 lines)
+│   ├── models.ts           ← Multi-provider LLM dispatch (278 lines)
+│   ├── token_optimizer.ts  ← AgentDiet: 70-85% token reduction (173 lines)
+│   └── streamable_http.ts  ← Custom Streamable HTTP MCP transport
+├── api/
+│   ├── routes.ts           ← All Hono REST endpoints (570 lines)
+│   └── websocket.ts        ← WebSocket hub & approval gate
+├── executor/
+│   ├── graph.ts            ← Multi-node agent graph executor
+│   └── stream.ts           ← Event stream dispatcher
+├── llm_engine/             ← Native LLM provider HTTP clients
+├── mcp_engine/             ← MCP server lifecycle manager
+└── store/
+    ├── agents.ts           ← Agent CRUD (~/.liate/agents/)
+    ├── keys.ts             ← API key store (~/.liate/.env)
+    ├── mcps.ts             ← MCP registry (~/.liate/mcps/)
+    ├── skills.ts           ← Skills loader (~/.liate/skills/)
+    └── paths.ts            ← Platform-aware path resolver
+```
+
+</div>
+
+<div id="compile-binary" className="scroll-mt-24 mb-8">
+  ## Compile to Single Binary
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    OM can be compiled to a single portable binary using Bun's built-in compiler — no runtime installation needed on the target machine.
+  </div>
+
+```bash
+bun build ./src/index.ts --compile --outfile om
+
+# Produces a self-contained ~50MB binary
+./om
+# → [OM RUNTIME] SOVEREIGN AGENT ENGINE (HONO + BUN NATIVE)
+# → [HTTP REST API]   http://localhost:7071
+# → [WEBSOCKET HUB]   ws://localhost:7071
+```
+
+</div>
+
+<div id="open-source-vs-cloud" className="scroll-mt-24 mb-8">
+  ## OM vs Liate Cloud Engines
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    OM is the open-source developer runtime. The Liate Cloud runs proprietary Go-based engines (AgentAntra, AgentSutra) that provide hardware isolation, serverless economics, and Google A2A swarm capabilities on top of the same <code>liate.json</code> standard.
+  </div>
+
+| Feature | OM (Open Source) | Liate Cloud (AgentAntra/AgentSutra) |
+|---------|-----------------|--------------------------------------|
+| **Runtime** | Bun + Hono | Go + Firecracker MicroVM |
+| **Isolation** | Process-level | Hardware KVM hypervisor |
+| **Idle Cost** | Server uptime cost | $0.00 / second |
+| **Boot Time** | ~1 second (Bun start) | < 30 milliseconds |
+| **Memory** | Shared host RAM | 128MB – 1GB dedicated |
+| **Protocols** | Ekanantra v1 | Ekanantra v1 + Google A2A |
+| **BYOD** | Local `~/.liate/` store | 1-Click Supabase PostgreSQL JSONB |
+| **License** | MIT Open Source | Commercial SaaS |
+
+</div>

@@ -1,0 +1,10 @@
+{
+  "title": "Core Concepts",
+  "icon": "Layers",
+  "pages": [
+    "liate-json-spec",
+    "ekamantra",
+    "memory-engine",
+    "providers"
+  ]
+}

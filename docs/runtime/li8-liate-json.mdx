@@ -1,0 +1,197 @@
+---
+icon: "FileCode"
+title: "liate.json — The 5-Pillar Spec"
+description: "Complete reference for the liate.json sovereign agent specification format. One file defines your entire agent."
+---
+
+<div id="overview" className="scroll-mt-24 mb-8">
+
+`liate.json` is the **universal declarative specification** for a Liate sovereign AI agent. It uses 5 top-level keys — one per pillar — to describe everything an agent needs to run: its model, identity, tools, memory, and environment.
+
+The same `liate.json` runs identically on **OM (local Bun runtime)** and on the **Liate Sovereign Cloud** (AWS Firecracker MicroVM). Write once. Execute anywhere.
+
+</div>
+
+<div id="full-example" className="scroll-mt-24 mb-8">
+  ## Complete Example
+
+```json
+{
+  "L": "sarvam/sarvam-105b-conversations",
+  "I": {
+    "memory": "sessions/time-agent-india-v4"
+  },
+  "A": {
+    "name": "time-agent",
+    "version": "1.0.0",
+    "intent": "You are a time analyst. When asked about time in India or IST, you MUST pass timezone='Asia/Kolkata' to get_current_time.",
+    "skills": "./skills.md"
+  },
+  "T": {
+    "time": {
+      "command": "uvx",
+      "args": ["mcp-server-time"],
+      "tools": ["get_current_time"]
+    },
+    "search": {
+      "command": "websearch.exe",
+      "tools": ["*"]
+    }
+  },
+  "E": {
+    "SARVAM_API_KEY": "$SARVAM_API_KEY",
+    "MAX_TURNS": "5",
+    "REQUIRE_APPROVAL": "false"
+  }
+}
+```
+
+</div>
+
+<div id="pillar-l" className="scroll-mt-24 mb-8">
+  ## L — Language Model
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    Specifies which AI model and provider to use. Format is always <code>"provider/model-id"</code>.
+  </div>
+
+```json
+{ "L": "sarvam/sarvam-105b-conversations" }
+{ "L": "openai/gpt-4o" }
+{ "L": "anthropic/claude-sonnet-4-5" }
+{ "L": "google/gemini-2.5-pro" }
+{ "L": "groq/llama-3.3-70b-versatile" }
+{ "L": "deepseek/deepseek-chat" }
+{ "L": "openrouter/meta-llama/llama-3.1-405b" }
+```
+
+</div>
+
+<div id="pillar-i" className="scroll-mt-24 mb-8">
+  ## I — Intelligence (Memory)
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    Configures the agent's persistent memory and session continuity. Memory is stored as a JSON file in <code>~/.liate/sessions/</code>.
+  </div>
+
+```json
+{
+  "I": {
+    "memory": "sessions/my-agent-memory"
+  }
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `memory` | `string` | Session ID. Stored at `~/.liate/sessions/<id>.json`. Conversation history persists across runs. |
+
+</div>
+
+<div id="pillar-a" className="scroll-mt-24 mb-8">
+  ## A — Agent Identity
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    Defines the agent's name, system prompt (intent), and procedural skills loaded from Markdown files.
+  </div>
+
+```json
+{
+  "A": {
+    "name": "researcher",
+    "version": "2.1.0",
+    "intent": "You are a deep research analyst. You search the web, extract facts, and produce structured reports.",
+    "skills": "./skills.md"
+  }
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `name` | `string` | Agent identifier — used in logs, UI, and MCP client metadata. |
+| `version` | `string` | Optional semantic version of this agent. |
+| `intent` | `string` | System prompt injected at the start of every LLM call. |
+| `skills` | `string` | Path to a `skills.md` Markdown file with procedural rules. Comma-separated for multiple skill files. |
+
+</div>
+
+<div id="pillar-t" className="scroll-mt-24 mb-8">
+  ## T — Tools (MCP Servers)
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    Connects external MCP tool servers. Each key in T is an arbitrary server name. OM supports 3 transport types.
+  </div>
+
+```json
+{
+  "T": {
+    "time": {
+      "command": "uvx",
+      "args": ["mcp-server-time"],
+      "tools": ["get_current_time"]
+    },
+    "email": {
+      "command": "sse",
+      "url": "https://mcp.agentmail.to/sse?apiKey=your_key",
+      "tools": ["*"]
+    },
+    "search": {
+      "url": "https://mcp.search-engine.com/mcp",
+      "tools": ["web_search", "news_search"]
+    }
+  }
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `command` | `string` | Binary to execute: `uvx`, `npx`, `node`, `python`, an `.exe` path, `sse`, or `http`. |
+| `url` | `string` | For remote MCP servers (SSE or Streamable HTTP). |
+| `args` | `string[]` | Arguments passed to the command (e.g. `["mcp-server-time"]`). |
+| `tools` | `string[]` | Whitelist of tool names to expose to the LLM. Use `["*"]` for all tools. |
+
+**Transport Resolution Logic:**
+- `command="uvx"` or any binary path → **StdioClientTransport** (spawns child process)
+- `command="sse"` or URL contains `/sse` → **SSEClientTransport** (HTTP event stream)
+- HTTPS URL without `/sse` → **StreamableHttpClientTransport** (JSON-RPC over HTTP)
+
+</div>
+
+<div id="pillar-e" className="scroll-mt-24 mb-8">
+  ## E — Environment
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    Injects API keys and runtime control flags into the agent's execution environment. Values starting with <code>$</code> are resolved from the system environment or <code>~/.liate/.env</code>.
+  </div>
+
+```json
+{
+  "E": {
+    "SARVAM_API_KEY": "$SARVAM_API_KEY",
+    "OPENAI_API_KEY": "sk-hardcoded-key",
+    "MAX_TURNS": "5",
+    "REQUIRE_APPROVAL": "false",
+    "AUTO_APPROVE_TOOLS": "get_current_time,web_search"
+  }
+}
+```
+
+| Key | Values | Description |
+|-----|--------|-------------|
+| `SARVAM_API_KEY` / `OPENAI_API_KEY` etc. | `"$VAR"` or literal | API key for the provider specified in L-pillar. |
+| `MAX_TURNS` | `"1"` – `"20"` | Maximum ReAct loop iterations. Default: `5`. |
+| `REQUIRE_APPROVAL` | `"true"` / `"false"` | If `true`, every tool call requires user approval via WebSocket before executing. |
+| `AUTO_APPROVE_TOOLS` | Comma-separated tool names | Tools listed here are auto-approved. All others require approval. |
+
+</div>
+
+<div id="skills-md" className="scroll-mt-24 mb-8">
+  ## skills.md — Procedural Instructions
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    A <code>skills.md</code> file is a plain Markdown document containing procedural rules for your agent. It is injected verbatim into the system prompt as a <code>[PROCEDURAL SKILL]</code> block before every agent run.
+  </div>
+
+```markdown
+# time-agent skills
+
+- When user asks for time, ALWAYS call `get_current_time` with `timezone="Asia/Kolkata"` for India.
+- Include a time-of-day greeting: "Good Morning" (5am–12pm), "Good Afternoon" (12pm–5pm), "Good Evening" (5pm–9pm), "Good Night" (9pm–5am).
+- Always end your response with an inspiring daily quote.
+```
+
+</div>

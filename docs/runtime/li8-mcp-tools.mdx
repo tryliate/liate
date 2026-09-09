@@ -1,0 +1,186 @@
+---
+icon: "Plug"
+title: "MCP Tools (T-Pillar)"
+description: "How OM connects to MCP tool servers using Stdio, SSE, and Streamable HTTP transports."
+---
+
+<div id="overview" className="scroll-mt-24 mb-8">
+
+The **T-Pillar** of `liate.json` connects your agent to any **Model Context Protocol (MCP)** tool server. OM natively supports all 3 MCP transport types — no plugins or extensions needed.
+
+Once connected, OM calls `tools/list` to discover available tools and registers them with the LLM. During the ReAct loop, when the LLM emits a tool call, OM automatically executes it and feeds the result back.
+
+</div>
+
+<div id="transports" className="scroll-mt-24 mb-8">
+  ## The 3 MCP Transports
+
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+  <div className="p-4 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
+    ### 1. Stdio (Local Binary)
+    <div className="text-xs text-black/60 dark:text-white/60">Spawns a child process and communicates via stdin/stdout pipes. Used for local tools like <code>uvx</code>, <code>npx</code>, and compiled executables.</div>
+  </div>
+  <div className="p-4 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
+    ### 2. SSE (Server-Sent Events)
+    <div className="text-xs text-black/60 dark:text-white/60">Connects to a remote MCP server over HTTP event stream. Ideal for SaaS tool gateways like AgentMail.</div>
+  </div>
+  <div className="p-4 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
+    ### 3. Streamable HTTP
+    <div className="text-xs text-black/60 dark:text-white/60">Standard JSON-RPC over HTTPS. Used for MCP servers with REST endpoints that don't require persistent SSE connections.</div>
+  </div>
+</div>
+
+</div>
+
+<div id="stdio-examples" className="scroll-mt-24 mb-8">
+  ## Stdio Examples (Local Tools)
+
+```json
+{
+  "T": {
+    "time": {
+      "command": "uvx",
+      "args": ["mcp-server-time"],
+      "tools": ["get_current_time"]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "./workspace"],
+      "tools": ["*"]
+    },
+    "websearch": {
+      "command": "websearch.exe",
+      "tools": ["web_search", "news_search"]
+    },
+    "python_tool": {
+      "command": "python",
+      "args": ["my_mcp_server.py"],
+      "tools": ["*"]
+    }
+  }
+}
+```
+
+<div className="p-3 rounded-lg bg-black/5 dark:bg-white/5 text-xs font-mono mb-4">
+  <strong>Windows Note:</strong> OM auto-converts <code>npx</code> → <code>npx.cmd</code> on Windows. No manual adjustment needed.
+</div>
+
+</div>
+
+<div id="sse-examples" className="scroll-mt-24 mb-8">
+  ## SSE Examples (Remote Services)
+
+```json
+{
+  "T": {
+    "email": {
+      "command": "sse",
+      "url": "https://mcp.agentmail.to/sse?apiKey=am_us_inbox_your_key",
+      "tools": ["list_inboxes", "list_messages", "send_email"]
+    },
+    "github": {
+      "command": "sse",
+      "url": "https://api.githubcopilot.com/mcp/sse",
+      "tools": ["*"]
+    }
+  }
+}
+```
+
+</div>
+
+<div id="http-examples" className="scroll-mt-24 mb-8">
+  ## Streamable HTTP Examples
+
+```json
+{
+  "T": {
+    "database": {
+      "url": "https://mcp.mydb.com/mcp",
+      "tools": ["query", "insert", "update"]
+    },
+    "payments": {
+      "url": "https://mcp.razorpay.com/v1/mcp",
+      "tools": ["create_payment_link", "check_payment_status"]
+    }
+  }
+}
+```
+
+</div>
+
+<div id="tool-filtering" className="scroll-mt-24 mb-8">
+  ## Tool Filtering
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    Use <code>tools</code> to whitelist only the tools your agent needs. This reduces system prompt tokens and prevents the LLM from calling irrelevant tools.
+  </div>
+
+```json
+"tools": ["*"]                           // Expose all tools
+"tools": ["get_current_time"]            // Only this one tool
+"tools": ["web_search", "news_search"]   // Two specific tools
+```
+
+</div>
+
+<div id="approval-gate" className="scroll-mt-24 mb-8">
+  ## Tool Approval Gate
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    For sensitive tools (payments, email sending, file deletion), you can require human approval before each call. The approval is handled via WebSocket — the UI prompts the user before OM executes.
+  </div>
+
+```json
+{
+  "E": {
+    "REQUIRE_APPROVAL": "true",
+    "AUTO_APPROVE_TOOLS": "get_current_time,web_search"
+  }
+}
+```
+
+```
+LLM requests tool → OM checks E.REQUIRE_APPROVAL
+  ├── Tool in AUTO_APPROVE_TOOLS → Execute immediately
+  └── Tool not in list → WebSocket: { type: "tool_approval_request", tool: "send_email" }
+        ├── User approves → Execute tool → Continue
+        └── User denies  → "Tool execution denied" → LLM tries alternative
+```
+
+</div>
+
+<div id="real-world" className="scroll-mt-24 mb-8">
+  ## Real-World Agent Examples
+
+**Email Agent (AgentMail SSE Gateway):**
+```json
+{
+  "L": "sarvam/sarvam-105b",
+  "A": { "name": "email-agent", "intent": "You are an email assistant. List, read, and send emails on behalf of the user." },
+  "T": {
+    "agentmail": {
+      "command": "sse",
+      "url": "https://mcp.agentmail.to/sse?apiKey=$AGENTMAIL_KEY",
+      "tools": ["list_inboxes", "list_messages", "send_email"]
+    }
+  },
+  "E": { "SARVAM_API_KEY": "$SARVAM_API_KEY" }
+}
+```
+
+**Time Agent (Local uvx):**
+```json
+{
+  "L": "sarvam/sarvam-105b-conversations",
+  "A": {
+    "name": "time-agent",
+    "intent": "You are a time analyst. Always use Asia/Kolkata timezone for Indian time.",
+    "skills": "./skills.md"
+  },
+  "T": {
+    "time": { "command": "uvx", "args": ["mcp-server-time"], "tools": ["get_current_time"] }
+  },
+  "E": { "SARVAM_API_KEY": "$SARVAM_API_KEY" }
+}
+```
+
+</div>

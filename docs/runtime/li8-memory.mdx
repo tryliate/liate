@@ -1,0 +1,49 @@
+---
+icon: "Database"
+title: "Agent Memory (I-Pillar)"
+description: "How session continuity, episodic memory, and conversation history work in the OM runtime."
+---
+
+<div id="overview" className="scroll-mt-24 mb-8">
+
+The **I-Pillar** (Intelligence & Memory) manages persistent session states, conversational context, and long-term memory across agent runs.
+
+Instead of losing context when an agent execution finishes, setting the `I.memory` parameter causes OM to load and persist conversation turns automatically:
+
+```json
+{
+  "I": {
+    "memory": "sessions/time-agent-india-v4"
+  }
+}
+```
+
+</div>
+
+<div id="local-storage" className="scroll-mt-24 mb-8">
+  ## Local Flat-File Session Storage
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    In the open-source OM runtime, sessions are persisted locally as JSON files inside your user home directory:
+  </div>
+
+```
+~/.liate/sessions/
+├── time-agent-india-v4.json
+├── researcher-session-01.json
+└── coding-assistant-thread.json
+```
+
+Each session file stores an array of prior message exchanges, tool calls, and execution timestamps. When a new prompt is sent with the same `memory` ID, OM automatically injects the prior context before running the ReAct loop.
+
+</div>
+
+<div id="vector-cloud-memory" className="scroll-mt-24 mb-8">
+  ## Cloud & Sovereign Memory (pgvector)
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    In the Liate Cloud platform with 1-Click Supabase BYOD:
+  </div>
+
+- **Short-Term Memory**: Stored in Supabase `liate_sessions` table with sub-millisecond retrieval.
+- **Long-Term Semantic Memory**: Vector embeddings stored with PostgreSQL `pgvector` for semantic similarity search over months of past agent history.
+
+</div>

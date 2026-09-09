@@ -7,7 +7,7 @@
 import { scaffoldWizard } from './commands/init';
 import { runCommand } from './commands/run';
 import { serveCommand } from './commands/serve';
-import { loginCommand, whoamiCommand, logoutCommand, walletCommand } from './commands/auth';
+import { loginCommand, whoamiCommand, logoutCommand } from './commands/auth';
 import { deployCommand, connectCommand } from './commands/deploy';
 import { installCommand, submitCommand, searchCommand, updateCommand, psCommand } from './commands/registry';
 import { mcpCommand, skillsCommand } from './commands/tools';
@@ -19,7 +19,7 @@ export * from './utils';
 const knownCommands = [
   'init', 'create', 'run', 'install', 'i', 'submit', 'publish', 'search', 'update', 'upgrade',
   'serve', 'dev', 'start', 'soon', '--soon', 'announce', 'mission', 'cloud',
-  'login', 'logout', 'whoami', 'wallet', 'connect', 'deploy', 'ps', 'agents',
+  'login', 'logout', 'whoami', 'connect', 'deploy', 'ps', 'agents',
   'mcp', 'skills', 'keys', 'key', 'cache', 'sessions',
   'logs', 'lock', 'version', '-v', '--version', 'help', '-h', '--help'
 ];
@@ -109,10 +109,6 @@ async function main(): Promise<void> {
 
     case 'logout':
       await logoutCommand();
-      break;
-
-    case 'wallet':
-      await walletCommand();
       break;
 
     case 'deploy':

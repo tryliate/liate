@@ -1,0 +1,8 @@
+{
+  "title": "Li8 Cloud Engine",
+  "icon": "Cloud",
+  "pages": [
+    "li8-cloud-tiers",
+    "li8-raft-enterprise"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "Advanced",
+  "icon": "Settings",
+  "pages": [
+    "mcp-overview",
+    "mcp-host-server",
+    "deployment",
+    "cli-reference"
+  ]
+}

@@ -1,0 +1,57 @@
+---
+icon: "Zap"
+title: "Token Optimizer (AgentDiet)"
+description: "How OM's built-in 2026 Token Optimizer reduces context size and token costs by 70-85%."
+---
+
+<div id="overview" className="scroll-mt-24 mb-8">
+
+Traditional agent frameworks suffer from **quadratic token explosion**: as an agent executes multi-turn tool loops, massive JSON schemas and verbose HTML/JSON tool outputs pile up in context, quickly burning through token budgets and slowing down execution.
+
+OM includes a built-in **2026 Token Optimizer (AgentDiet)** that compresses context by **70% to 85%** without sacrificing intelligence or accuracy.
+
+</div>
+
+<div id="three-layers" className="scroll-mt-24 mb-8">
+  ## The 3 Layers of Optimization
+
+<div className="space-y-4">
+  <div className="p-4 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
+    ### 1. Tool Schema Minification (`minifyToolSchemas`)
+    <div className="text-xs text-black/60 dark:text-white/60 mb-2">
+      Strips redundant JSON Schema fields (`$schema`, `title`, `definitions`, `additionalProperties`). Trims verbose descriptions to concise first sentences.
+    </div>
+    <div className="text-xs font-mono text-emerald-500">Savings: ~1,500 tokens per agent prompt</div>
+  </div>
+
+  <div className="p-4 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
+    ### 2. Tool Output Sanitization (`sanitizeToolOutput`)
+    <div className="text-xs text-black/60 dark:text-white/60 mb-2">
+      Strips bulky blob keys (`base64`, `rawhtml`, `stacktrace`, `pagetoken`, `rawheaders`). Large lists (>10 items) are summarized, preventing payload explosions.
+    </div>
+    <div className="text-xs font-mono text-emerald-500">Savings: Up to 10,000+ tokens per web/API tool result</div>
+  </div>
+
+  <div className="p-4 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02]">
+    ### 3. Trajectory Pruning (`pruneTrajectoryMessages` / AgentDiet)
+    <div className="text-xs text-black/60 dark:text-white/60 mb-2">
+      Preserves the last 2 turns in full fidelity. Older intermediate tool responses (>2 turns ago) are automatically compacted to a 250-character summary.
+    </div>
+    <div className="text-xs font-mono text-emerald-500">Savings: Prevents exponential cost in 5–10 turn ReAct loops</div>
+  </div>
+</div>
+
+</div>
+
+<div id="real-time-metrics" className="scroll-mt-24 mb-8">
+  ## Real-Time Economic Metrics
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    Every time an agent executes, OM logs exact token usage and compute costs to your console:
+  </div>
+
+```
+[METRICS]   Peak Context: 412 tokens | Total Turn I/O: 642 (Prompt: 412, Output: 230)
+[ECONOMICS] Est. Compute: ₹0.000098 | Run Price: ₹1.00 | Margin: 99.99%
+```
+
+</div>

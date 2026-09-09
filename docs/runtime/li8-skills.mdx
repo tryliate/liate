@@ -1,0 +1,81 @@
+---
+icon: "Wand2"
+title: "Procedural Skills (skills.md)"
+description: "How to define procedural domain rules and behavioral instructions for your AI agents using plain Markdown."
+---
+
+<div id="overview" className="scroll-mt-24 mb-8">
+
+In Liate, **skills** are human-readable, domain-specific procedural rules written in standard Markdown (`skills.md`). Instead of cluttering Python prompt templates or burying rules inside code, you write clean instructions in a dedicated file and link it in your agent's **A-Pillar**:
+
+```json
+{
+  "A": {
+    "name": "time-agent",
+    "intent": "You are a time analyst.",
+    "skills": "./skills.md"
+  }
+}
+```
+
+When OM initializes an agent, it reads `skills.md`, parses the rules, and injects them as a dedicated `[PROCEDURAL SKILL]` block into the system prompt.
+
+</div>
+
+<div id="skills-example" className="scroll-mt-24 mb-8">
+  ## Example `skills.md`
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    Here is an example of procedural rules for an Indian Time & Greeting agent:
+  </div>
+
+```markdown
+# time-agent procedural skills
+
+### 1. Timezone Handling:
+- When the user asks for time in India or IST, ALWAYS pass `timezone="Asia/Kolkata"` to `get_current_time`.
+- When asked for other countries, map the country/city to standard IANA timezone identifiers (e.g., `America/New_York`, `Europe/London`).
+
+### 2. Real-Time Greetings:
+- Inspect the returned hour in 24-hour format:
+  - `05:00 - 11:59` ➔ "Good Morning! ☀️"
+  - `12:00 - 16:59` ➔ "Good Afternoon! 🌤️"
+  - `17:00 - 20:59` ➔ "Good Evening! 🌆"
+  - `21:00 - 04:59` ➔ "Good Night! 🌙"
+
+### 3. Daily Quotes:
+- Accompany every time response with an inspirational quote about time, wisdom, or perseverance.
+- End your response with a peaceful greeting (e.g., "Have a wonderful day ahead! 🕉️").
+```
+
+</div>
+
+<div id="how-om-handles-skills" className="scroll-mt-24 mb-8">
+  ## How OM Executes `skills.md`
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    OM resolves skills through a 3-tier lookup mechanism:
+  </div>
+
+```
+1. Relative Path Lookup:
+   "./skills.md" ➔ Resolved relative to the agent's folder.
+
+2. Global Store Lookup:
+   "researcher" ➔ Resolved from ~/.liate/skills/researcher.md.
+
+3. Multiple Skills Chaining:
+   "skills": "./rules.md, ./compliance.md, formatting"
+   ➔ Injects multiple skill blocks sequentially into the LLM system prompt.
+```
+
+</div>
+
+<div id="supabase-skills" className="scroll-mt-24 mb-8">
+  ## Sovereign Supabase Integration (BYOD)
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    When running in the Liate Sovereign Cloud, <code>skills.md</code> is stored directly in your private Supabase PostgreSQL database:
+  </div>
+
+- **Table Column**: `skills_md TEXT` in `liate_agents` table for full-text visual editing in Supabase dashboard.
+- **Embedded JSONB**: `spec.A.skills_content` embeds the Markdown text, keeping the agent **100% self-contained in 1 database row**.
+
+</div>

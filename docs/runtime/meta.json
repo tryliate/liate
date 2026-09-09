@@ -1,0 +1,14 @@
+{
+  "title": "Li8 Open Source Runtime",
+  "icon": "Cpu",
+  "pages": [
+    "li8-overview",
+    "li8-liate-json",
+    "li8-mcp-tools",
+    "li8-skills",
+    "li8-memory",
+    "li8-providers",
+    "li8-token-optimizer",
+    "li8-api-reference"
+  ]
+}

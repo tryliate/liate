@@ -1,0 +1,42 @@
+---
+title: "Under the Hood: High-Performance Go MCP Host"
+description: "How Agentantra implements the Model Context Protocol (MCP) using Go routines, stdin/stdout IPC streams, and concurrent tool orchestration."
+icon: "microchip"
+---
+
+The **Model Context Protocol (MCP)** created by Anthropic has rapidly become the universal protocol for connecting LLMs to external databases, APIs, and file systems.
+
+While Python and TypeScript SDKs are common for web servers, CLI engines and autonomous execution loops require microsecond response times without the startup tax of heavy runtimes.
+
+Here is how we built Agentantra's native Go MCP host engine.
+
+<Tip>
+  **Zero CGO Dependencies**: Agentantra's MCP host engine is written entirely in pure Go, ensuring cross-compilation for any architecture with zero CGO bindings.
+</Tip>
+
+---
+
+## Concurrent Process Orchestration
+
+Agentantra launches and multiplexes external MCP servers as isolated child processes communicating via JSON-RPC 2.0 over standard I/O:
+
+```
+                     ┌──────────────────┐
+                     │   Agentantra     │
+                     │  (9MB Go Binary) │
+                     └────────┬─────────┘
+          ┌───────────────────┼───────────────────┐
+          ▼                   ▼                   ▼
+   [ MCP Server 1 ]    [ MCP Server 2 ]    [ MCP Server 3 ]
+   (PostgreSQL Tool)    (GitHub Actions)      (File System)
+```
+
+---
+
+## Goroutine Concurrency Advantages
+
+- **Sub-Millisecond Schema Resolution:** Tool definitions and JSON schemas are indexed concurrently in memory.
+- **Process Group Isolation:** If an MCP tool server crashes or times out, Agentantra catches the signal cleanly without terminating the agent execution loop.
+- **Deadlock-Free Streaming:** Non-blocking I/O pipe buffers prevent deadlocks during high-throughput stdout streaming.
+
+Try building and running custom MCP tools with Agentantra today!

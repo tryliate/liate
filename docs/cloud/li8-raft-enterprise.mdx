@@ -1,0 +1,67 @@
+---
+icon: "Shield"
+title: "Li8 Speed — Distributed Raft Consensus"
+description: "Deep dive into the 3-node Raft consensus architecture powering Li8 Speed for 99.99% high-availability enterprise workloads."
+---
+
+# 🚀 Li8 Speed Raft Consensus Architecture
+
+**Li8 Speed** is the enterprise tier of the Tryliate engine. It solves the single point of failure (SPOF) problem by embedding a native **3-node Raft distributed consensus cluster** directly into the Go binary.
+
+---
+
+## 🏛️ How Raft Consensus Works in Li8
+
+Unlike architectures that rely on external dependencies like ZooKeeper or etcd, Li8 Speed embeds `hashicorp/raft v1.7.1` and `raft-boltdb/v2` directly into the engine binary:
+
+```
+        Client Request (REST / gRPC / WebSocket on Port 7071)
+                              │
+                              ▼
+                      ┌───────────────┐
+                      │  Node 1 (👑)  │ ◄─── Elected Cluster Leader
+                      └───────┬───────┘
+                              │
+             Raft Log Replication (Port 7074 TCP RPC)
+             Quorum: 2 out of 3 node acknowledgments
+                              │
+              ┌───────────────┴───────────────┐
+              ▼                               ▼
+       ┌───────────────┐               ┌───────────────┐
+       │    Node 2     │               │    Node 3     │
+       │   (Follower)  │               │   (Follower)  │
+       └───────────────┘               └───────────────┘
+```
+
+---
+
+## 🔄 The 4 Replicated Finite State Machines (FSMs)
+
+Every state change in Li8 Speed is serialized as a Raft log entry and applied to 4 specialized in-memory state machines:
+
+### 1. `DurableFSM`
+- Replicates workflow checkpoint states (`durable_step`, `durable_sleep`, `durable_complete`).
+- If a leader node crashes mid-step during a 3-hour financial workflow, the newly elected leader resumes the workflow from the exact persisted checkpoint.
+
+### 2. `MemoryFSM`
+- Replicates conversation history and agent session memory.
+- Enables stateless load balancing: any client can hit Node 1, Node 2, or Node 3 without requiring sticky session routing.
+
+### 3. `CronFSM`
+- Replicates recurring job registrations and execution timestamps.
+- Enforces **leader-only dispatch**: even with 3 nodes active, exactly one node triggers the scheduled agent job.
+
+### 4. `RegistryFSM`
+- Replicates live A2A (Agent-to-Agent) agent cards and skill catalogs across the cluster.
+
+---
+
+## 🛡️ Automatic Failover & Recovery
+
+| Metric | Specification |
+|---|---|
+| **Cluster Size** | 3 nodes (2/3 quorum required for writes) |
+| **Failover Latency** | **&lt;500ms** automatic leader election |
+| **Log Persistence** | Persistent BoltDB disk log (`raft.db`) |
+| **Cluster Health Endpoint** | `GET http://localhost:7071/api/raft/status` |
+| **Cluster Leader Endpoint** | `GET http://localhost:7071/api/raft/leader` |

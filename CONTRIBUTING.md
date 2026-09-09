@@ -26,6 +26,14 @@ This project and everyone participating in it is governed by our [Code of Conduc
 
 ## How Can I Contribute?
 
+### 📖 Improving Documentation
+
+Our documentation is 100% open source! All documentation guides and blog articles live directly in the [docs/](./docs) directory.
+
+- **Fixing a typo or improving an explanation?** Edit the relevant .mdx file under docs/ and submit a Pull Request.
+- **Adding a new guide or tutorial?** Create a new .mdx file in the appropriate subfolder (docs/get-started/, docs/runtime/, docs/core-concepts/, etc.) and register it in the corresponding meta.json.
+- When your PR is merged into main, our automated CI pipeline automatically publishes your updates live to [tryliate.com/docs](https://tryliate.com/docs)!
+
 ### 🐛 Reporting Bugs
 
 Before creating a bug report, please check existing [Issues](https://github.com/tryliate/liate/issues) to avoid duplicates.
@@ -255,3 +263,4 @@ docs(readme): add Multi-Agent Swatantra example to quickstart
 - 💬 Join the discussion on [GitHub Discussions](https://github.com/tryliate/liate/discussions)
 - 📧 Email: **contributors@tryliate.com**
 - 🇮🇳 Built with ❤️ for Bharat's Sovereign AI Future
+

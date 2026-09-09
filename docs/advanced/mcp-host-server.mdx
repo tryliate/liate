@@ -1,0 +1,20 @@
+---
+icon: "Radio"
+title: "Host & Server Mode"
+description: "Connect external MCP servers or expose your agent as a server."
+category: "Universal MCP"
+---
+
+Liate natively implements Anthropic's **Model Context Protocol (MCP)**. You can connect external MCP servers over Stdio/SSE or expose your Liate agent as an MCP server.
+
+### Connect an External MCP Server
+
+```bash
+liate mcp connect --stdio "npx -y @modelcontextprotocol/server-filesystem /tmp"
+```
+
+### Expose Liate Agent as MCP Server
+
+```bash
+liate mcp serve --port 8080
+```

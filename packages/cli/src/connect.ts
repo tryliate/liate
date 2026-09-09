@@ -40,7 +40,7 @@ export async function runConnectWizard(options?: ConnectWizardOptions): Promise<
     session = {
       token: session?.token || `liate_usr_${cleanUser}_live`,
       userId: cleanUser,
-      email: session?.email || `${cleanUser}@gmail.com`,
+      email: session?.email || '',
       name: cleanUser,
       tier: 'pro',
       engineUrl: defaultUrl,
@@ -108,8 +108,9 @@ export async function runConnectWizard(options?: ConnectWizardOptions): Promise<
     targetEngineUrl = connectData.engineUrl;
   }
 
+  const cfClientId = process.env.CLOUDFLARE_OAUTH_CLIENT_ID || '7e38d66f4c3183251a1c8249a65d35bd';
   const oauthUrl = connectData?.oauthUrl || connectData?.deployUrl || (isCloudflare
-    ? `https://dash.cloudflare.com/oauth2/auth?response_type=code&client_id=7e38d66f4c3183251a1c8249a65d35bd&redirect_uri=${encodeURIComponent(`${baseEndpoint}/api/auth/callback/cloudflare`)}`
+    ? `https://dash.cloudflare.com/oauth2/auth?response_type=code&client_id=${cfClientId}&redirect_uri=${encodeURIComponent(`${baseEndpoint}/api/auth/callback/cloudflare`)}`
     : `https://vercel.com/new/clone?repository-url=${encodeURIComponent('https://github.com/tryliate/liate')}&project-name=${connectData?.instanceName || `liate-${cleanHandle}`}&redirect-url=${encodeURIComponent(`${baseEndpoint}/?status=connected&provider=vercel`)}`);
 
 
@@ -165,10 +166,13 @@ export async function runConnectWizard(options?: ConnectWizardOptions): Promise<
 
     // 2. Direct probe of user's target engine domain
     try {
-      const probeRes = await fetch(`${targetEngineUrl}/health`, { signal: AbortSignal.timeout(2000) });
-      if (probeRes.ok || probeRes.status === 200 || probeRes.status === 404) {
-        confirmed = true;
-        break;
+      const probeRes = await fetch(`${targetEngineUrl}/health`, { signal: AbortSignal.timeout(3000) });
+      if (probeRes.ok && probeRes.status === 200) {
+        const body = await probeRes.json().catch(() => ({}));
+        if (body.status === 'ACTIVE' || body.sovereign === true || body.runtime) {
+          confirmed = true;
+          break;
+        }
       }
     } catch {}
   }

@@ -23,21 +23,21 @@
 
 ---
 
-## ⚡ Liate Platform: Sovereign Liate ID Workspaces for AI Agents
+## ⚡ Liate Platform: Sovereign BYOC Runtime for AI Agents
 
 <p align="center">
-  <img src="docs/assets/microvm-cloud.svg" alt="Liate Platform Liate ID Workspace" width="100%" />
+  <img src="docs/assets/microvm-cloud.svg" alt="Liate Platform Sovereign BYOC Workspace" width="100%" />
 </p>
 
-### 🆔 The Liate ID Architecture
+### 🆔 The Liate Sovereign BYOC Architecture
 
-On the **Liate Platform**, every developer claims a unique **Liate ID** (e.g. `@vinod` / `vinod.liate.id`). Run `liate connect` to instantly link your local agents to your Liate ID workspace running inside an isolated MicroVM:
+On the **Liate Platform**, every developer connects their own sovereign cloud (**Vercel Edge** or **Cloudflare Workers**) in 1-Click:
 
-* **Isolated Per-User Compute:** Connect agents in 1 command (`liate connect`). Each agent executes in an isolated cloud runtime tied to your Liate ID.
-* **Isolated API Endpoints:** Every connected agent gets an instant production endpoint:  
-  `https://api.tryliate.com/v1/u/{liate_id}/agents/{agent_name}`
-* **Isolated Key Vaults & MCP Tools:** Your API keys (`SARVAM_API_KEY`, `OPENAI_API_KEY`), vector databases, and custom MCP connectors are encrypted and isolated per Liate ID.
-* **1-Click Top-Up & Micro-payments:** Pay only for the exact token/compute consumption your agents use with real-time INR tracking.
+* **Sovereign BYOC Compute:** Connect engines via `liate connect` (or `liate connect --cloudflare`). Your agent code runs directly on your own edge runtime (V8 Isolates / Hono-native) with zero infrastructure overhead.
+* **Sovereign Production Endpoints:** Every connected agent gets a dedicated production endpoint:  
+  `https://liate-{username}.vercel.app/LAPI/v1/agents/{agent_name}` or  
+  `https://liate-engine-{username}.{username}.workers.dev/LAPI/v1/agents/{agent_name}`
+* **Flat Sovereign Engine Pricing:** Flat $5 / month managed BYOC engine sync with 0% token markup, zero compute markup, and zero middleman fees.
 
 ---
 

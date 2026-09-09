@@ -34,7 +34,7 @@ export async function loginCommand(args: string[]): Promise<void> {
     await saveAuthSession({
       token: explicitToken || `liate_usr_${cleanUser}_live`,
       userId: cleanUser,
-      email: `${cleanUser}@gmail.com`,
+      email: '',
       name: cleanUser,
       tier: 'pro',
       memoryMb: 2048,
@@ -205,34 +205,4 @@ export async function logoutCommand(): Promise<void> {
   }
   await clearAuthSession();
   console.log(`\n✔ Logged out from \x1b[32m@${session.userId}\x1b[0m. Local session cleared.\n`);
-}
-
-/**
- * Inspects real-time balance & subscription status
- */
-export async function walletCommand(): Promise<void> {
-  const session = await getAuthSession();
-  if (!session) {
-    console.log(`\n\x1b[33m⚠️  Not logged in.\x1b[0m Run \x1b[1mliate login\x1b[0m to view wallet balance.\n`);
-    return;
-  }
-  const baseEndpoint = (session.endpoint || process.env.LIATE_ENDPOINT || 'https://www.tryliate.com').replace(/\/$/, '');
-  let balance = 500.00;
-  try {
-    const res = await fetch(`${baseEndpoint}/api/cli/whoami`, {
-      headers: { 'Authorization': `Bearer ${session.token}` }
-    });
-    if (res.ok) {
-      const data = await res.json();
-      balance = data.balanceInr || 500.00;
-    }
-  } catch {}
-
-  console.log(`\n\x1b[1m💳 LIATE SOVEREIGN WALLET :: @${session.userId}\x1b[0m`);
-  console.log('───────────────────────────────────────────────────────────────────');
-  console.log(`  💰 Current Balance   : \x1b[32;1m₹${balance.toFixed(2)}\x1b[0m`);
-  console.log(`  ⚡ Cloud Billing     : Managed Engine Subscription ($5 / ₹499 per mo)`);
-  console.log(`  🇮🇳 Payment Gateway   : 1-Click UPI / Razorpay / NetBanking`);
-  console.log(`  🔗 Top-up link       : \x1b[36;4m${baseEndpoint}/dashboard\x1b[0m`);
-  console.log('───────────────────────────────────────────────────────────────────\n');
 }

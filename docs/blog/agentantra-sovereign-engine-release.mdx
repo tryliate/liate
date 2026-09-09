@@ -1,0 +1,67 @@
+---
+title: "Introducing Agentantra: Sovereign AI in a 9MB Binary"
+description: "Launched on Swatantrata Diwas, Agentantra is a 100% open-source, compiled Go runtime engine that runs autonomous AI agents with &lt;10ms cold starts."
+icon: "bolt"
+---
+
+Today, we are proud to open-source **Agentantra** — India's first compiled, zero-dependency sovereign AI agent engine.
+
+For years, building autonomous AI agents required wrestling with heavy Python virtual environments, fragile dependency trees, multi-gigabyte Docker images, and slow interpreter boot times. 
+
+Agentantra replaces this entire operational nightmare with a single **9MB compiled Go executable**.
+
+<Tip>
+  **9MB Engine Guarantee**: Agentantra is compiled directly into native machine code. It runs on Linux, macOS, and Windows with zero external runtime dependencies.
+</Tip>
+
+---
+
+## Key Benchmarks & Engineering Highlights
+
+- **9MB Single Binary:** Download one static binary, put it in your PATH, and start executing agents immediately.
+- **&lt;10ms Cold Starts:** Instant initialization allows agents to spin up per-request without persistent container idle waste.
+- **15MB Base Memory Footprint:** Run hundreds of sovereign agents concurrently on a standard cloud VM or edge machine.
+- **Native MCP Host:** Built-in Model Context Protocol client multiplexing over standard `stdin`/`stdout` with zero CGO dependencies.
+- **100% Data Residency:** Session memory, vector indexes, and execution logs reside locally or within Indian sovereign clouds.
+
+---
+
+## 30-Second Quickstart
+
+Install and run your first sovereign agent with a single shell pipeline:
+
+```bash
+curl -fsSL https://tryliate.com/install.sh | bash && agentantra run simple-agent
+```
+
+### The Declarative `liate.json` Standard
+
+Every agent in Agentantra is defined by the 5-pillar **EkaMantra** specification:
+
+```json
+{
+  "L": "sarvam/sarvam-105b",
+  "I": {
+    "memory": "sessions/time-agent-india-v4"
+  },
+  "A": {
+    "name": "time-agent",
+    "intent": "You are a time analyst. When asked about time in India or IST, pass timezone='Asia/Kolkata'.",
+    "skills": "./skills.md"
+  },
+  "T": {
+    "mcp-server-time": {
+      "command": "uvx",
+      "args": ["mcp-server-time"]
+    }
+  },
+  "E": {
+    "SARVAM_API_KEY": "$SARVAM_API_KEY",
+    "MAX_TURNS": "10"
+  }
+}
+```
+
+<Note>
+  **Built from India, For India, Beyond India**: Agentantra is 100% open-source under the MIT license.
+</Note>

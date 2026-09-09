@@ -1,0 +1,51 @@
+---
+icon: "Layers"
+title: "Core Architecture"
+description: "The 3-tier sovereign architecture of the Liate ecosystem: OM open-source runtime, Liate Cloud MicroVMs, and Supabase BYOD."
+category: "GETTING STARTED"
+---
+
+<div id="overview" className="scroll-mt-24 mb-8">
+
+The **Liate Sovereign Architecture** is designed around 3 decoupled layers that give developers total ownership of their AI agents, data, and compute costs:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                       1. THE SPECIFICATION LAYER                            │
+│                       Standard: liate.json (5-Pillars)                      │
+│            Model (L) • Memory (I) • Agent (A) • Tools (T) • Env (E)        │
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │
+                    ┌──────────────────┴──────────────────┐
+                    ▼                                     ▼
+┌──────────────────────────────────────┐  ┌──────────────────────────────────────┐
+│  2. OPEN SOURCE LOCAL RUNTIME        │  │  3. SOVEREIGN CLOUD PLATFORM         │
+│     🕉️ OM (Bun + Hono Engine)         │  │     ☁️ Liate Cloud (MicroVMs)        │
+├──────────────────────────────────────┤  ├──────────────────────────────────────┤
+│ • Local dev & testing on Port 7071   │  │ • Dedicated AWS Firecracker MicroVMs │
+│ • Native WebSocket streaming hub     │  │ • Sub-30ms boot time / $0 idle cost  │
+│ • Flat-file store at ~/.liate/       │  │ • 1-Click Supabase BYOD (PostgreSQL) │
+│ • 50+ open-source reference agents   │  │ • 24/7 background crons & swarms     │
+└──────────────────────────────────────┘  └──────────────────────────────────────┘
+```
+
+</div>
+
+<div id="three-pillars-architecture" className="scroll-mt-24 mb-8">
+  ## The 3 Architectural Layers
+
+### 1. The Specification Standard (`liate.json` + `skills.md`)
+- Single declarative document defining AI models, prompts, tools, and procedural rules.
+- 100% portable — runs identically on OM (locally) or in the Liate Cloud.
+
+### 2. The Local Runtime: OM (`@tryliate/om`)
+- Built in **TypeScript / Bun** on top of the **Hono v4 edge router**.
+- Manages multi-turn ReAct loops, token optimization, and MCP child process lifecycles.
+- Flat-file storage at `~/.liate/` ensures zero database setup is required for local development.
+
+### 3. The Sovereign Cloud: Liate Platform
+- **Compute**: Hardware-isolated AWS Firecracker MicroVM in Mumbai (`ap-south-1`) per user. Boots in < 30ms with $0.00 idle cost.
+- **Database (BYOD)**: Developer's private Supabase PostgreSQL database storing `liate_agents` specs in native `JSONB` and vector memory via `pgvector`.
+- **Protocol**: Single agents run via `AgentAntra` (`Ekanantra v1` on `:7071`); agent swarms run via `AgentSutra` (`Google A2A + ADK` on `:7072`).
+
+</div>

@@ -1,0 +1,69 @@
+---
+icon: "Cloud"
+title: "Li8 Cloud Architecture & Tiers"
+description: "Understand the three tiers of Li8 Cloud: Standard, Turbo, and Speed, running on dedicated sovereign AWS infrastructure."
+---
+
+# ☁️ Li8 Cloud Overview
+
+**Li8 Cloud** is the managed sovereign cloud engine powering enterprise AI agents across India and globally. Built on high-performance native Go binaries (`github.com/tryliate/agentantra`), Li8 Cloud offers three purpose-built execution tiers:
+
+```
+                  ┌────────────────────────────────────────────────┐
+                  │                 Li8 CLOUD                      │
+                  │         Port 7071 Unified Endpoint             │
+                  └───────────────────────┬────────────────────────┘
+                                          │
+        ┌─────────────────────────────────┼────────────────────────────────┐
+        ▼                                 ▼                                ▼
+  ⚡ Li8 STANDARD                   🏎️ Li8 TURBO                     🚀 Li8 SPEED
+  • Solo Developers                 • Team Workflows                 • Enterprise & BFSI
+  • 9.21 MB Binary                  • 21.15 MB Binary                • Raft 3-Node Quorum
+  • AWS Lambda MicroVM              • Always-Warm Provisioned        • Dedicated VPC
+  • REST + WebSocket                • gRPC + A2A + Durable + Graph   • 99.99% HA Cluster
+```
+
+---
+
+## ⚡ 1. Li8 Standard (Solo Tier)
+
+- **Target:** Solo developers, lightweight microservices, and individual agent experiments.
+- **Runtime:** Single stripped Go binary (**9.21 MB**).
+- **Deployment:** AWS Lambda `arm64` MicroVM with suspend-on-idle state retention (2026 MicroVM primitive).
+- **Default Port:** `7071` (REST + `/ws` live execution traces & HITL approvals).
+- **Key Features:**
+  - 5-Pillar declarative agent execution (`liate.json`).
+  - Native MCP tool execution (Stdio + HTTP).
+  - Sub-80ms cold start latency.
+  - Zero infrastructure maintenance.
+
+---
+
+## 🏎️ 2. Li8 Turbo (Team Tier)
+
+- **Target:** Production startups, engineering teams, and real-time multi-agent workflows.
+- **Runtime:** Full-featured Go binary (**21.15 MB**).
+- **Deployment:** Warm-provisioned AWS MicroVM (always-active).
+- **Default Port:** `7071` via `cmux` (multiplexing HTTP/1.1, HTTP/2 TLS, gRPC, and HTTP/3 QUIC).
+- **Key Features:**
+  - **A2A Protocol:** Google Agent-to-Agent communication mesh.
+  - **ADK:** Agent Development Kit for inline sub-agents.
+  - **Durable Workflows:** Step memoization and crash-safe execution checkpoints.
+  - **Cron Scheduler:** Automated time-based agent triggers.
+  - **Multi-Agent Graph/DAG:** Parallel and sequential agent dependency orchestration.
+  - **10-Lakh Skill Catalog:** Dynamic runtime skill fetching.
+
+---
+
+## 🚀 3. Li8 Speed (Enterprise Tier)
+
+- **Target:** Indian BFSI, banks, NBFCs, ONDC platforms, and mission-critical government infrastructure requiring a 99.99% SLA.
+- **Runtime:** Clustered Go binary with native `hashicorp/raft v1.7.1` consensus.
+- **Deployment:** 3-Node AWS EC2 Graviton cluster in a dedicated, isolated customer VPC.
+- **Ports:** `7071` (Client traffic) + `7074` (Internal Raft TCP RPC).
+- **Key Features:**
+  - **Native Raft Consensus:** 3-node quorum with automatic leader election (&lt;500ms failover).
+  - **Distributed Durable FSM:** Checkpoints replicated across all 3 nodes via BoltDB.
+  - **Stateless Session Memory FSM:** Any node can serve any session with zero sticky routing.
+  - **Leader-Only Cron FSM:** Exactly-once task dispatch guarantee.
+  - **DPDP DLP Sanitizer:** Automated Aadhaar, PAN, phone number, and PII masking.

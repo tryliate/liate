@@ -1,0 +1,53 @@
+---
+icon: "Bot"
+title: "Supported AI Providers & Models"
+description: "Native support for Sarvam AI, Anthropic Claude, OpenAI, Google Gemini, Groq, DeepSeek, and OpenRouter with BYOK."
+---
+
+<div id="overview" className="scroll-mt-24 mb-8">
+
+OM provides **zero-dependency, native HTTP dispatch** for all leading AI model providers. You bring your own API keys (**BYOK**) — you pay only the AI provider directly with zero markup or intermediary token taxes.
+
+Specify any provider and model in the **L-Pillar**:
+
+```json
+{
+  "L": "sarvam/sarvam-105b-conversations"
+}
+```
+
+</div>
+
+<div id="matrix" className="scroll-mt-24 mb-8">
+  ## Supported Providers & Models Matrix
+
+| Provider | Identifier Prefix | Environment Key | Recommended Models |
+| :--- | :--- | :--- | :--- |
+| **Sarvam AI (India 🇮🇳)** | `sarvam/` | `SARVAM_API_KEY` | `sarvam-105b-conversations`, `sarvam-2b`, `sarvam-m` |
+| **Anthropic** | `anthropic/` | `ANTHROPIC_API_KEY` | `claude-3-7-sonnet-20250219`, `claude-3-5-haiku-20241022`, `claude-3-opus-20240229` |
+| **OpenAI** | `openai/` | `OPENAI_API_KEY` | `gpt-4o`, `gpt-4o-mini`, `o1`, `o3-mini` |
+| **Google** | `google/` | `GOOGLE_GENERATIVE_AI_API_KEY` | `gemini-2.5-pro`, `gemini-2.0-flash` |
+| **Groq** | `groq/` | `GROQ_API_KEY` | `llama-3.3-70b-versatile`, `mixtral-8x7b-32768` |
+| **DeepSeek** | `deepseek/` | `DEEPSEEK_API_KEY` | `deepseek-chat`, `deepseek-reasoner` |
+| **OpenRouter** | `openrouter/` | `OPENROUTER_API_KEY` | Any OpenRouter supported model string |
+
+</div>
+
+<div id="byok-management" className="scroll-mt-24 mb-8">
+  ## Managing Your API Keys
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    You can configure your keys via CLI, REST API, or by directly editing <code>~/.liate/.env</code>:
+  </div>
+
+```bash
+# Save a key directly to ~/.liate/.env
+echo "SARVAM_API_KEY=sk_live_your_key" >> ~/.liate/.env
+echo "ANTHROPIC_API_KEY=sk-ant-your_key" >> ~/.liate/.env
+
+# Or save via the OM REST API
+curl -X POST http://localhost:7071/api/keys \
+  -H "Content-Type: application/json" \
+  -d '{"provider": "sarvam", "key": "sk_live_your_key"}'
+```
+
+</div>

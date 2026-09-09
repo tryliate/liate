@@ -1,0 +1,17 @@
+---
+icon: "Network"
+title: "MCP Overview"
+description: "Native Model Context Protocol integration in Liate."
+category: "Universal MCP"
+---
+
+<div className="space-y-6">
+  <div className="text-sm text-black/80 dark:text-white/80">
+    Liate natively implements Anthropic's **Model Context Protocol (MCP)**. You can connect external MCP servers over Stdio/SSE or expose your Liate agent as an MCP server.
+  </div>
+  <div className="relative group">
+    <pre className="p-4 rounded-xl bg-black/90 text-white dark:bg-black font-mono text-xs overflow-x-auto border border-black/20 dark:border-white/20">
+      <code>{`liate mcp connect --stdio "npx -y @modelcontextprotocol/server-filesystem /tmp"`}</code>
+    </pre>
+  </div>
+</div>

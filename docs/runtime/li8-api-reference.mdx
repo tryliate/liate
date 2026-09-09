@@ -1,0 +1,107 @@
+---
+icon: "Terminal"
+title: "OM REST & WebSocket API"
+description: "Comprehensive reference for the OM Hono REST API and real-time WebSocket event streaming hub on Port 7071."
+---
+
+<div id="overview" className="scroll-mt-24 mb-8">
+
+OM exposes a complete **Hono REST API** and a native **WebSocket streaming hub** on `http://localhost:7071` (or your configured `PORT`).
+
+</div>
+
+<div id="rest-endpoints" className="scroll-mt-24 mb-8">
+  ## REST Endpoints
+
+### 1. Execute Agent / Spec
+```http
+POST /api/spec/run
+Content-Type: application/json
+
+{
+  "spec": { ...liate.json content... },
+  "prompt": "What is the time in Mumbai?"
+}
+```
+**Response:**
+```json
+{
+  "result": "The current time in Mumbai is 6:08 PM IST.",
+  "metrics": { "turns": 2, "totalTokens": 312, "costINR": 0.000078 }
+}
+```
+
+---
+
+### 2. Run Named Agent from Store
+```http
+POST /api/agent/run
+Content-Type: application/json
+
+{
+  "name": "time-agent",
+  "prompt": "What is the time in Bangalore?"
+}
+```
+
+---
+
+### 3. API Key Management (BYOK)
+```http
+GET    /api/keys               # List all configured keys (masked)
+POST   /api/keys               # Save key: { "provider": "sarvam", "key": "sk_live_..." }
+DELETE /api/keys/:provider     # Remove key
+```
+
+---
+
+### 4. Agent Store CRUD
+```http
+GET    /api/agents             # List all installed agents
+POST   /api/agents/install     # Install agent: { "name": "my-agent", "spec": { ... } }
+POST   /api/agents/uninstall   # Remove agent: { "name": "my-agent" }
+POST   /api/agents/export      # Export agent package as JSON
+POST   /api/agents/import      # Import agent package
+```
+
+---
+
+### 5. MCP Tool Server Management
+```http
+GET    /api/mcps               # List installed MCP servers
+POST   /api/mcps/install       # Install server config
+POST   /api/mcps/:name/probe   # Inspect exposed tools on server
+POST   /api/mcps/execute       # Execute single MCP tool directly
+```
+
+</div>
+
+<div id="websocket-stream" className="scroll-mt-24 mb-8">
+  ## WebSocket Real-Time Streaming Hub
+  <div className="text-sm text-black/70 dark:text-white/70 mb-4">
+    Connect your frontend or dashboard to <code>ws://localhost:7071</code> to receive real-time execution events:
+  </div>
+
+```json
+// Event Stream Payloads:
+{ "type": "STATUS",      "content": "Connecting to MCP server [time]..." }
+{ "type": "THOUGHT",     "content": "Turn 1: Evaluating user query..." }
+{ "type": "TOOL_CALL",    "content": "Calling get_current_time(timezone='Asia/Kolkata')" }
+{ "type": "TOOL_RESULT",  "content": "{\"datetime\":\"2026-08-21T18:08:00+05:30\"}" }
+{ "type": "CHUNK",        "content": "Good " }
+{ "type": "CHUNK",        "content": "Evening! " }
+{ "type": "RESULT",       "content": "Good Evening! The time in India is 6:08 PM IST." }
+```
+
+### Tool Human-in-the-Loop Approval via WS:
+```json
+// UI sends back approval response:
+{
+  "type": "tool_approval_response",
+  "id": "call_17872200",
+  "allowed": true,
+  "always": false
+}
+```
+
+</div>

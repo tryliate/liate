@@ -1,0 +1,77 @@
+---
+icon: "BookOpen"
+title: "Introduction"
+description: "Liate is India's first open-source sovereign AI agent runtime. Write a single liate.json. Run anywhere."
+---
+
+## What is Liate?
+
+**Liate** is India's first open-source, sovereign AI agent runtime. Describe your agent in a single **`liate.json`** file — model, tools, memory, skills, and environment — and execute it anywhere: your laptop, a VPS, Cloudflare Workers, or a dedicated Liate Cloud MicroVM.
+
+The open-source runtime is called **OM** (`🕉️`). It is built on **Bun** and **Hono** — the fastest JavaScript runtime and edge HTTP framework available today. No Python. No pip lockfiles. No Docker required.
+
+## Core Pillars
+
+<Cards>
+  <Card title="🕉️ OM Runtime">
+    Open-source Bun + Hono native agent runtime. Compiles to a single binary. Runs locally or on any edge.
+  </Card>
+  <Card title="🔌 Universal MCP">
+    Native Model Context Protocol support. Connect any MCP server via Stdio, SSE, or Streamable HTTP in one line.
+  </Card>
+  <Card title="🛡️ Sovereign Data">
+    Your keys, your database, your agents. 1-Click Supabase BYOD. Zero telemetry. Zero vendor lock-in.
+  </Card>
+</Cards>
+
+### Architecture Highlights
+- **Single Binary**: 9MB self-contained executable
+- **Native MCP Host**: Multi-transport support over standard I/O and SSE
+- **100% Data Sovereignty**: All telemetry and keys remain local
+
+## OM Technology Stack
+
+<Cards>
+  <Card title="Bun">
+    Native JavaScript Runtime
+  </Card>
+  <Card title="Hono v4">
+    Edge HTTP Router
+  </Card>
+  <Card title="MCP SDK">
+    Model Context Protocol
+  </Card>
+  <Card title="TypeScript">
+    100% Type-Safe Architecture
+  </Card>
+</Cards>
+
+### Supported Environments
+- **Local Dev**: macOS, Linux, Windows (WSL / Native)
+- **Edge**: Cloudflare Workers, Deno, Node.js
+- **Cloud**: Liate Sovereign MicroVMs
+
+## The EkaMantra Guarantee
+
+<Callout title="EkaMantra Guarantee" type="info">
+  One single declaration file — `liate.json` — specifies your model, memory, agent identity, MCP tools, and environment. Write once. Execute on your laptop, a VPS, or the Liate Sovereign Cloud. No rewrites, no platform migration.
+</Callout>
+
+## Open Source vs Sovereign Cloud
+
+<Cards>
+  <Card title="🕉️ OM — Open Source Runtime">
+    - ✅ Runs locally on Bun (Port 7071)
+    - ✅ Full REST API + WebSocket streaming
+    - ✅ 50+ open-source reference agents
+    - ✅ Self-hostable on any server
+    - ✅ MIT License — fork and extend freely
+  </Card>
+  <Card title="☁️ Liate Cloud — Sovereign MicroVMs">
+    - 🚀 Dedicated AWS Firecracker MicroVM per user
+    - 🚀 1-Click Supabase BYOD (JSONB + pgvector)
+    - 🚀 Boots in under 30ms. $0.00 idle cost.
+    - 🚀 24/7 background crons & webhooks
+    - 🚀 Google A2A multi-agent swarms (Li8 Turbo)
+  </Card>
+</Cards>
