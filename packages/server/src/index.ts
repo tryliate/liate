@@ -10,8 +10,6 @@ import { evalHandler, createHitlHandler } from './routes/eval';
 import { listKeysHandler, saveKeyHandler, deleteKeyHandler } from './routes/keys';
 import { listSkillsHandler, saveSkillHandler, deleteSkillHandler } from './routes/skills';
 import { createChatHandler } from './routes/chat';
-import fs from 'node:fs/promises';
-import path from 'node:path';
 
 export { WSHub };
 
@@ -127,33 +125,7 @@ export function createLiateApp(wsHub: WSHub = new WSHub()) {
     if (!['mcps', 'skills', 'llm'].includes(type)) {
       return c.json({ error: 'Invalid catalog type' }, 400);
     }
-
-    const loadCatalog = async (category: 'prebuilt' | 'community', itemType: string) => {
-      const dir = (import.meta as any).dirname || process.cwd();
-      const candidates = [
-        path.join(process.cwd(), 'catalog', category, `${itemType}.json`),
-        path.join(dir, '..', '..', 'catalog', category, `${itemType}.json`),
-        path.join(process.cwd(), '..', 'catalog', category, `${itemType}.json`)
-      ];
-      for (const p of candidates) {
-        try {
-          const content = await fs.readFile(p, 'utf-8');
-          return JSON.parse(content);
-        } catch {}
-      }
-      return [];
-    };
-
-    const prebuilt = await loadCatalog('prebuilt', type);
-    const community = await loadCatalog('community', type);
-
-    const extractArray = (data: any, key: string) => {
-      if (Array.isArray(data)) return data;
-      if (data && typeof data === 'object' && Array.isArray(data[key])) return data[key];
-      return [];
-    };
-
-    return c.json([...extractArray(prebuilt, type), ...extractArray(community, type)]);
+    return c.json([]);
   });
 
   return app;
