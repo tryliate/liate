@@ -49,7 +49,7 @@ export async function generateOpenAICompatible(req: LlmRequest): Promise<LlmResp
       messages.push({ role: 'user', content: msg.content });
     } else if (msg.role === 'assistant') {
       const ast: any = { role: 'assistant', content: msg.content || null };
-      if (msg.toolCalls && msg.toolCalls.length > 0) {
+      if (msg.toolCalls && msg.toolCalls.length > 0 && req.tools && req.tools.length > 0) {
         ast.tool_calls = msg.toolCalls.map(tc => ({
           id: tc.id,
           type: 'function',
@@ -60,7 +60,7 @@ export async function generateOpenAICompatible(req: LlmRequest): Promise<LlmResp
         }));
       }
       messages.push(ast);
-    } else if (msg.role === 'tool' && msg.toolResult) {
+    } else if (msg.role === 'tool' && msg.toolResult && req.tools && req.tools.length > 0) {
       messages.push({
         role: 'tool',
         tool_call_id: msg.toolResult.toolCallId,

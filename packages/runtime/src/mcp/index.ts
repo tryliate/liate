@@ -66,11 +66,37 @@ export async function connectPillarTools(
         const isHttpUrl = serverCfg.url || serverCfg.command?.startsWith('http://') || serverCfg.command?.startsWith('https://') || (serverCfg.args && serverCfg.args[0]?.startsWith('http'));
         
         if (isHttpUrl || serverCfg.command === 'http' || serverCfg.command === 'sse') {
-          const targetUrl = serverCfg.url || (serverCfg.command?.startsWith('http') ? serverCfg.command : serverCfg.args?.[0]) || '';
-          if (serverCfg.command === 'sse' || targetUrl.includes('/sse')) {
+          let targetUrl = serverCfg.url || (serverCfg.command?.startsWith('http') ? serverCfg.command : serverCfg.args?.[0]) || '';
+          if (targetUrl) {
+            targetUrl = targetUrl.replace(/\$([A-Z0-9_]+)/gi, (_: string, varName: string) => envConfig?.[varName] || (process.env as any)[varName] || `$${varName}`);
+          }
+          const isSse = serverCfg.type === 'sse' || serverCfg.command === 'sse';
+          if (isSse && typeof (globalThis as any).EventSource !== 'undefined') {
             transport = new SSEClientTransport(new URL(targetUrl));
           } else {
-            transport = new StreamableHttpClientTransport(targetUrl);
+            const httpHeaders: Record<string, string> = {
+              'Accept': 'application/json, text/event-stream',
+              ...(serverCfg.headers || {})
+            };
+
+            let authKey: string | undefined = undefined;
+            if (serverCfg.env) {
+              for (const [k, v] of Object.entries(serverCfg.env)) {
+                if (typeof v === 'string') {
+                  const resolved = v.startsWith('$') ? (envConfig?.[v.substring(1)] || (process.env as any)[v.substring(1)]) : v;
+                  if (resolved) { authKey = resolved; break; }
+                }
+              }
+            }
+            if (!authKey && envConfig) {
+              authKey = envConfig[`${serverName.toUpperCase()}_API_KEY`] || envConfig.API_KEY || envConfig.apiKey;
+            }
+
+            if (authKey && !httpHeaders['Authorization'] && !httpHeaders['authorization']) {
+              httpHeaders['Authorization'] = `Bearer ${authKey}`;
+            }
+
+            transport = new StreamableHttpClientTransport(targetUrl, httpHeaders);
           }
         } else if (serverCfg.command) {
           let cmd = serverCfg.command;
@@ -86,18 +112,51 @@ export async function connectPillarTools(
             args.unshift('-y');
           }
 
+          const stdioEnv: Record<string, string> = {};
+          for (const [k, v] of Object.entries(process.env)) {
+            if (typeof v === 'string') {
+              stdioEnv[k] = v;
+            }
+          }
+          if (serverCfg.env) {
+            for (const [k, v] of Object.entries(serverCfg.env)) {
+              if (typeof v === 'string') {
+                if (v.startsWith('$')) {
+                  const varName = v.substring(1);
+                  stdioEnv[k] = envConfig?.[varName] || process.env[varName] || envConfig?.[k] || process.env[k] || '';
+                } else {
+                  stdioEnv[k] = v;
+                }
+              }
+            }
+          }
+          if (envConfig) {
+            for (const [k, v] of Object.entries(envConfig)) {
+              if (typeof v === 'string') {
+                stdioEnv[k] = v;
+              }
+            }
+          }
+
           transport = new StdioClientTransport({
             command: cmd,
             args: args,
-            env: { ...process.env } as Record<string, string>
+            env: stdioEnv
           });
         }
 
         if (transport) {
+          const safeJsonSchemaValidator = {
+            getValidator: () => (input: any) => ({ valid: true, data: input })
+          };
+
           const client = new Client({
             name: `liate-agent-${agentName}`,
             version: agentVersion
-          }, { capabilities: {} });
+          }, {
+            capabilities: {},
+            jsonSchemaValidator: safeJsonSchemaValidator as any
+          });
 
           await client.connect(transport);
           mcpTransports.push(transport);
@@ -160,7 +219,7 @@ export async function connectPillarTools(
           log('STATUS', `[MCP] Server "${serverName}" connected with ${nativeTools.length} tool(s): [${nativeTools.map(t => t.name).join(', ')}]`);
         }
       } catch (err: any) {
-        log('ERROR', `Failed to initialize MCP server "${serverName}": ${err.message}`);
+        log('ERROR', `Failed to initialize MCP server "${serverName}": ${err.stack || err.message}`);
       }
     }
   }

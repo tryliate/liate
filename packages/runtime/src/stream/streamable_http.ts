@@ -17,6 +17,7 @@ export class StreamableHttpClientTransport implements Transport {
     this.headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json, text/event-stream, application/x-ndjson, */*',
+      'User-Agent': 'Liate-Engine/1.0',
       ...headers
     };
   }
