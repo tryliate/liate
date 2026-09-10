@@ -2,7 +2,7 @@ import { handle } from 'hono/vercel';
 import { createLiateApp } from '../packages/server/src/index';
 
 export const config = {
-  runtime: 'edge',
+  runtime: 'nodejs',
 };
 
 const app = createLiateApp();
