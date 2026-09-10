@@ -25,13 +25,6 @@ export function createRunHandler(wsHub: WSHub) {
     }
 
     if (!targetSpec) {
-      try {
-        const raw = await fs.readFile(path.resolve(process.cwd(), 'liate.json'), 'utf-8');
-        targetSpec = JSON.parse(raw);
-      } catch {}
-    }
-
-    if (!targetSpec) {
       targetSpec = {
         L: 'sarvam/sarvam-105b',
         A: { name: agentIdentifier || 'agent', intent: 'Autonomous sovereign AI agent' },
